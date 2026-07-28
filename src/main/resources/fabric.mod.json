@@ -3,9 +3,9 @@
 	"id": "better-creeper-consent",
 	"version": "${version}",
 	"name": "Better Creeper Consent",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "You decide whether creepers explode or not!",
 	"authors": [
-		"Me!"
+		"wuritz"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
