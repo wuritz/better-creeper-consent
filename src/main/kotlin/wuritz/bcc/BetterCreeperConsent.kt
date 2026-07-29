@@ -4,7 +4,7 @@ import net.fabricmc.api.ModInitializer
 import net.minecraft.resources.Identifier
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import wuritz.bcc.network.PayloadNetwork
+import wuritz.bcc.network.connection.IncomingConnection
 
 object BetterCreeperConsent : ModInitializer {
 	const val MOD_ID: String = "better-creeper-consent"
@@ -14,7 +14,7 @@ object BetterCreeperConsent : ModInitializer {
 	override fun onInitialize() {
 		LOG.info("Initializing mod")
 
-		PayloadNetwork.init()
+		IncomingConnection.init()
 
 		LOG.info("Mod initialized!")
 	}

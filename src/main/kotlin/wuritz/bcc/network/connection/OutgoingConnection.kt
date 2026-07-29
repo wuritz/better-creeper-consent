@@ -10,7 +10,7 @@ import wuritz.bcc.network.CreeperQueue
 import wuritz.bcc.network.payloads.OpenConsentPayload
 import wuritz.bcc.utils.Utils
 
-object HandleConnection {
+object OutgoingConnection {
 
     fun triggerConsent(creeper: Creeper) {
         if (creeper.level() !is ServerLevel) return

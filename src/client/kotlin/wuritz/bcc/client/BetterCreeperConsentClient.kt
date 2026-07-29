@@ -3,6 +3,7 @@ package wuritz.bcc.client
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import wuritz.bcc.BetterCreeperConsent
+import wuritz.bcc.client.screens.ConsentScreen
 import wuritz.bcc.network.payloads.OpenConsentPayload
 
 object BetterCreeperConsentClient : ClientModInitializer {

@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import wuritz.bcc.network.CreeperQueue;
-import wuritz.bcc.network.connection.HandleConnection;
+import wuritz.bcc.network.connection.OutgoingConnection;
 
 @Mixin(Creeper.class)
 public abstract class CreeperMixin {
@@ -19,7 +19,7 @@ public abstract class CreeperMixin {
 
         ci.cancel();
 
-        HandleConnection.INSTANCE.triggerConsent(creeper);
+        OutgoingConnection.INSTANCE.triggerConsent(creeper);
     }
 
 }

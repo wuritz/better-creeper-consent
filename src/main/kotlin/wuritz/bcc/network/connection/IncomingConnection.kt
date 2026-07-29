@@ -1,17 +1,17 @@
-package wuritz.bcc.network
+package wuritz.bcc.network.connection
 
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.network.chat.Component
-import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.monster.Creeper
 import wuritz.bcc.BetterCreeperConsent
+import wuritz.bcc.network.CreeperQueue
 import wuritz.bcc.network.payloads.OpenConsentPayload
 import wuritz.bcc.network.payloads.ResponsePayload
 import wuritz.bcc.utils.Utils
 
-object PayloadNetwork {
+object IncomingConnection {
 
     fun init() {
         PayloadTypeRegistry.clientboundPlay().register(OpenConsentPayload.TYPE, OpenConsentPayload.CODEC)
