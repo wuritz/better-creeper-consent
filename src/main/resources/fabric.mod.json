@@ -8,10 +8,11 @@
 		"wuritz"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/wuritz/better-creeper-consent",
+		"sources": "https://github.com/wuritz/better-creeper-consent",
+		"issues": "https://github.com/wuritz/better-creeper-consent/issues"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/better-creeper-consent/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -28,12 +29,15 @@
 			}
 		]
 	},
-	"mixins": [
-		"better-creeper-consent.mixins.json",
-		{
-			"config": "better-creeper-consent.client.mixins.json",
-			"environment": "client"
+	"custom": {
+		"modmenu": {
+			"links": {
+				"modmenu.asd" : "https://google.com"
+			}
 		}
+	},
+	"mixins": [
+		"better-creeper-consent.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.19.3",
