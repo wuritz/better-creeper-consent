@@ -1,17 +1,22 @@
 package wuritz.bcc.client.screens
 
+import com.mojang.authlib.minecraft.client.MinecraftClient
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.Button
+import net.minecraft.client.gui.components.ImageWidget
 import net.minecraft.client.gui.components.Tooltip
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
+import wuritz.bcc.BetterCreeperConsent
 import wuritz.bcc.network.payloads.ResponsePayload
 import java.awt.Color
 
 class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
+
+    val yelopic = BetterCreeperConsent.id("yelo.png")
 
     // box
     val BOX_WIDTH = 230
@@ -31,6 +36,9 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
         val allowButtonX = getAllowButtonX()
         val denyButtonX = getDenyButtonX()
         val gamblingButtonX = getGamblingButtonX()
+
+        addRenderableWidget(ImageWidget.texture(200, 200, yelopic, 200, 200))
+            .setPosition(width / 2 - 200, height / 2 - 100)
 
         /**
          * Allow
@@ -65,7 +73,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
         // Background
         graphics.fill(0, 0, width, height, 0xAA050A05.toInt())
 
-        graphics.fill(getAllowButtonX() - 2, getButtonY() - 2,
+        /*graphics.fill(getAllowButtonX() - 2, getButtonY() - 2,
             getAllowButtonX() + BUTTON_WIDTH + 2, getButtonY() + 2 + BUTTON_HEIGHT,
             Color(87, 255, 92, 100).rgb)
 
@@ -76,11 +84,12 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
         graphics.fill(getGamblingButtonX() - 2, getGamblingButtonY() - 2,
             getGamblingButtonX() + totalButtonWidth + 2, getGamblingButtonY() + BUTTON_HEIGHT + 2,
             Color(244, 255, 110, 100).rgb)
+        */
 
         super.extractRenderState(graphics, mouseX, mouseY, a)
     }
 
-    /**
+    /**y
      * Click handlers
      */
     fun pressedAllow() {
@@ -112,12 +121,12 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
 
     private fun getButtonY() : Int {
         val boxY = height / 2 - BOX_HEIGHT / 2
-        return boxY + BOX_HEIGHT - 25
+        return boxY + 50
     }
 
     private fun getAllowButtonX(): Int {
         val totalButtonWidth = BUTTON_WIDTH * 2 + BUTTON_GAP
-        return width / 2 - totalButtonWidth / 2
+        return width / 2 - totalButtonWidth / 2 + 110
     }
 
     private fun getDenyButtonX(): Int {

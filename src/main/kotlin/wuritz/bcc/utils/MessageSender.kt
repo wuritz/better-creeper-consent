@@ -19,7 +19,7 @@ object MessageSender {
     fun sendAllowMsg(player: ServerPlayer) {
         player.sendSystemMessage(
             Component.literal(
-                ALLOW_MSG[Random.nextInt(ALLOW_MSG.size - 1)]
+                ALLOW_MSG[Random.nextInt(0, ALLOW_MSG.size - 1)]
             ).withStyle(ChatFormatting.GREEN)
         )
     }
@@ -27,7 +27,7 @@ object MessageSender {
     fun sendDenyMsg(player: ServerPlayer) {
         player.sendSystemMessage(
             Component.literal(
-                ALLOW_MSG[Random.nextInt(DENY_MSG.size - 1)]
+                DENY_MSG[Random.nextInt(0, DENY_MSG.size - 1)]
             ).withStyle(ChatFormatting.GREEN)
         )
     }
