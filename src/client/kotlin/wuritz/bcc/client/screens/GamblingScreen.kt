@@ -5,9 +5,14 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundEvents
+import wuritz.bcc.BetterCreeperConsent
 import wuritz.bcc.client.utils.timer.CacheTimer
 import wuritz.bcc.network.payloads.ResponsePayload
 import java.awt.Color
+import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gambling")) {
 
@@ -17,18 +22,30 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
     val rollTimer = CacheTimer()
     val endTimer = CacheTimer()
     val overTimer = CacheTimer()
+    val sliderTimer = CacheTimer()
 
     val steps = listOf(50, 100, 250, 500)
     var currentStep = 0
     var trigger = false
 
     var isOver = false
+    val mcFont = Minecraft.getInstance().font
+
+    // Rolling
+    var rollingText = "Rolling..."
+    var rollingSliderPercentage = 1f
+    val initR = Random.nextInt(0, 255)
+    val initG = Random.nextInt(0, 255)
+    val initB = Random.nextInt(0, 255)
 
     override fun init() {
         secTimer.reset()
         rollTimer.reset()
         endTimer.reset()
+        sliderTimer.reset()
 
+        if (Random.nextInt() % 2 == 0) trigger = true
+        rollingSliderPercentage = 1f
         isOver = false
     }
 
@@ -40,21 +57,50 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
         // Background
         graphics.fill(0, 0, width, height, 0xAA050A05.toInt())
 
-        if (!isOver) {
-            renderScaledText(graphics, getStateString(),
-                width / 2, height / 2, 20, Color.WHITE.rgb, 2f)
-            isRollOver()
-        } else {
-            shouldSendPacket()
+        if (!isOver) isRollOver()
+        else shouldSendPacket()
 
-            val renderText = if(state == State.ALLOW) "Allowed" else "Denied"
-            renderScaledText(graphics, renderText,
-                width / 2 - Minecraft.getInstance().font.width(renderText), height / 2 + Minecraft.getInstance().font.lineHeight, 20,
-                if (state == State.ALLOW) Color.GREEN.rgb else Color.RED.rgb,
-                4f)
+        var curX = 0
+        var curY = 0
+
+        if (isOver) rollingText = "Your result is:"
+
+        curX = width / 2 - 60
+        curY = height / 2 - mcFont.lineHeight
+
+        renderScaledText(graphics, rollingText,
+            curX, curY, 10, Color.WHITE.rgb, 1.5f)
+
+        curY += mcFont.lineHeight * 4 - 10
+
+        val resultString = getResultString()
+        val resultColor = if (!isOver) Color.WHITE.rgb else if (state == State.ALLOW) Color.GREEN.rgb else Color.RED.rgb
+
+        graphics.fill(curX - 10, curY - 10, curX + 150, curY + 40, Color(102, 102, 102, 160).rgb)
+        renderScaledText(graphics, resultString,
+            curX, curY, 20, resultColor, 4f)
+
+        if (!isOver) {
+            val passed = (endTimer.getElapsedTime(TimeUnit.MILLISECONDS) / 50).toInt()
+
+            rollingSliderPercentage = 1f - passed/100f
+            val sliderToDraw = (140 * (rollingSliderPercentage)).toInt()
+
+            curX -= 10
+            curY += 40
+
+            val rColor = (initR + (255 - initR) * passed/100)
+            val gColor = (initG + (255 - initG) * passed/100)
+            val bColor = (initB + (255 - initB) * passed/100)
+            graphics.fill(curX, curY, sliderToDraw + curX, curY - 2, Color(rColor, gColor, bColor, 255).rgb)
         }
 
         super.extractRenderState(graphics, mouseX, mouseY, a)
+    }
+
+    private fun getResultString() : String {
+        return if (!isOver) getStateString()
+        else if(state == State.ALLOW) "Allowed" else "Denied"
     }
 
     private fun isRollOver() {
@@ -62,12 +108,17 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
         isOver = true
 
         overTimer.reset()
+        if (state == State.DENY) Minecraft.getInstance().player?.playSound(SoundEvents.PLAYER_LEVELUP)
+        else {
+            Minecraft.getInstance().player?.playSound(SoundEvents.CREEPER_PRIMED)
+            Minecraft.getInstance().player?.playSound(SoundEvents.VILLAGER_NO)
+        }
     }
 
     private fun shouldSendPacket() {
         if (!overTimer.passed(2000)) return
 
-        ClientPlayNetworking.send(ResponsePayload(creeperId, state == State.ALLOW))
+        ClientPlayNetworking.send(ResponsePayload(creeperId, state == State.ALLOW, playerInitialized = true))
         onClose()
     }
 
@@ -80,7 +131,10 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
         if (rollTimer.passed(steps[currentStep])) {
             trigger = !trigger
             rollTimer.reset()
+
+            Minecraft.getInstance().player?.playSound(SoundEvents.FLINTANDSTEEL_USE)
         }
+
 
         if (trigger) {
             state = State.ALLOW

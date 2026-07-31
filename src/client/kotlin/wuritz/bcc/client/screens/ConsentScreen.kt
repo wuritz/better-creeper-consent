@@ -1,7 +1,6 @@
 package wuritz.bcc.client.screens
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
-import net.fabricmc.fabric.api.resource.v1.reloader.ResourceReloaderKeys
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphicsExtractor
@@ -9,7 +8,6 @@ import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.Tooltip
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
-import wuritz.bcc.client.BetterCreeperConsentClient
 import wuritz.bcc.network.payloads.ResponsePayload
 import java.awt.Color
 
@@ -24,6 +22,8 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
     val BUTTON_HEIGHT = 20
     val BUTTON_GAP = 12
 
+    var allowedToClose = false
+
     val totalButtonWidth = BUTTON_WIDTH * 2 + BUTTON_GAP
 
     override fun init() {
@@ -35,7 +35,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
         /**
          * Allow
          */
-        addRenderableWidget(Button.builder(Component.literal("allow :3").withStyle(ChatFormatting.GREEN))
+        addRenderableWidget(Button.builder(Component.literal("allow :3"))
         { b -> pressedAllow() }
             .bounds(allowButtonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)
             .tooltip(Tooltip.create(Component.literal("You might die :(")))
@@ -44,15 +44,17 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
         /**
          * Deny
          */
-        addRenderableWidget(Button.builder(Component.literal("deny ::(").withStyle(ChatFormatting.RED)) { b -> pressedDeny() }
+        addRenderableWidget(Button.builder(Component.literal("deny ::(")) { b -> pressedDeny() }
             .bounds(denyButtonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)
+            .tooltip(Tooltip.create(Component.literal("Noo I want to explode!")))
             .build())
 
         /**
          * Gambling
          */
-        addRenderableWidget(Button.builder(Component.literal("GAMBLING!! :D").withStyle(ChatFormatting.YELLOW)) { b -> pressedGambling() }
+        addRenderableWidget(Button.builder(Component.literal("GAMBLING!! :D")) { b -> pressedGambling() }
             .bounds(gamblingButtonX, getGamblingButtonY(), totalButtonWidth, BUTTON_HEIGHT)
+            .tooltip(Tooltip.create(Component.literal("YAY I LOVE GAMBLING!!").withStyle(ChatFormatting.YELLOW)))
             .build())
     }
 
@@ -82,18 +84,26 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
      * Click handlers
      */
     fun pressedAllow() {
-        ClientPlayNetworking.send(ResponsePayload(creeperId, true))
+        ClientPlayNetworking.send(ResponsePayload(creeperId, true, playerInitialized = true))
+        allowedToClose = true
         onClose()
     }
 
     fun pressedDeny() {
-        ClientPlayNetworking.send(ResponsePayload(creeperId, false))
+        ClientPlayNetworking.send(ResponsePayload(creeperId, false, playerInitialized = true))
+        allowedToClose = true
         onClose()
     }
 
     fun pressedGambling() {
+        allowedToClose = true
         onClose()
         Minecraft.getInstance().setScreenAndShow(GamblingScreen(creeperId))
+    }
+
+    override fun onClose() {
+        if (!allowedToClose) ClientPlayNetworking.send(ResponsePayload(creeperId, false, playerInitialized = true))
+        super.onClose()
     }
 
     /**

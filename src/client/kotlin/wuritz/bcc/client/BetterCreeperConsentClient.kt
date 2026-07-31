@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import wuritz.bcc.BetterCreeperConsent
 import wuritz.bcc.client.screens.ConsentScreen
 import wuritz.bcc.network.payloads.OpenConsentPayload
+import wuritz.bcc.network.payloads.ResponsePayload
 
 object BetterCreeperConsentClient : ClientModInitializer {
 	override fun onInitializeClient() {
@@ -18,7 +19,8 @@ object BetterCreeperConsentClient : ClientModInitializer {
 
 				BetterCreeperConsent.LOG.info("Received open screen packet for creeper {}", creeperId)
 
-				context.client().gui.setScreen(ConsentScreen(creeperId))
+				if (!context.client().gui.canInterruptScreen()) ClientPlayNetworking.send(ResponsePayload(creeperId, false, false))
+				else context.client().gui.setScreen(ConsentScreen(creeperId))
 			}
         }
 

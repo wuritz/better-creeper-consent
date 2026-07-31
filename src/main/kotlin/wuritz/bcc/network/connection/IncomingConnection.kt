@@ -2,6 +2,7 @@ package wuritz.bcc.network.connection
 
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
+import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.monster.Creeper
@@ -9,6 +10,7 @@ import wuritz.bcc.BetterCreeperConsent
 import wuritz.bcc.network.CreeperQueue
 import wuritz.bcc.network.payloads.OpenConsentPayload
 import wuritz.bcc.network.payloads.ResponsePayload
+import wuritz.bcc.utils.MessageSender
 import wuritz.bcc.utils.Utils
 
 object IncomingConnection {
@@ -22,11 +24,11 @@ object IncomingConnection {
         ) { payload, context ->
             val player = context.player()
 
-            context.server().execute { handleResponse(player, payload.creeperId, payload.allowed) }
+            context.server().execute { handleResponse(player, payload.creeperId, payload.allowed, payload.playerInitialized) }
         }
     }
 
-    private fun handleResponse(player: ServerPlayer, creeperId: Int, allowed: Boolean) {
+    private fun handleResponse(player: ServerPlayer, creeperId: Int, allowed: Boolean, playerInitialized: Boolean) {
         val world = player.level()
         val creeper = world.getEntity(creeperId)
 
@@ -48,14 +50,16 @@ object IncomingConnection {
             creeper.swellDir = 1 // normal behaviour
             creeper.ignite()
 
-            player.sendSystemMessage(Component.literal("Explosion allowed."))
+            // TODO: randomize text
+            MessageSender.sendAllowMsg(player)
         } else {
             BetterCreeperConsent.LOG.info("{} denied creeper id {}", player.name, creeperId)
 
             CreeperQueue.clearEntry(creeperUuid)
             creeper.discard()
 
-            player.sendSystemMessage(Component.literal("Explosion discarded."))
+            // TODO: randomize text
+            if (playerInitialized) MessageSender.sendDenyMsg(player)
         }
     }
 

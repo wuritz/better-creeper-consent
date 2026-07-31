@@ -8,13 +8,14 @@ import net.minecraft.resources.Identifier
 import wuritz.bcc.BetterCreeperConsent
 
 @JvmRecord
-data class ResponsePayload(val creeperId: Int, val allowed: Boolean) : CustomPacketPayload {
+data class ResponsePayload(val creeperId: Int, val allowed: Boolean, val playerInitialized: Boolean) : CustomPacketPayload {
 
     companion object {
         val PAYLOAD_ID = Identifier.fromNamespaceAndPath(BetterCreeperConsent.MOD_ID, "consent_response")
         val TYPE = CustomPacketPayload.Type<ResponsePayload>(PAYLOAD_ID)
         val CODEC: StreamCodec<RegistryFriendlyByteBuf, ResponsePayload> = StreamCodec.composite(ByteBufCodecs.VAR_INT, ResponsePayload::creeperId, ByteBufCodecs.BOOL,
-            ResponsePayload::allowed, ::ResponsePayload)
+            ResponsePayload::allowed,
+            ByteBufCodecs.BOOL, ResponsePayload::playerInitialized, ::ResponsePayload)
     }
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
