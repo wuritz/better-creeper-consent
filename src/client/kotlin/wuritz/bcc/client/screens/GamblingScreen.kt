@@ -3,6 +3,7 @@ package wuritz.bcc.client.screens
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphicsExtractor
+import net.minecraft.client.gui.components.ImageWidget
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvent
@@ -16,6 +17,7 @@ import kotlin.random.Random
 
 class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gambling")) {
 
+    val yelopic = BetterCreeperConsent.id("yelo.png")
     var state = State.ALLOW
 
     val secTimer = CacheTimer()
@@ -44,6 +46,9 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
         endTimer.reset()
         sliderTimer.reset()
 
+        addRenderableWidget(ImageWidget.texture(200, 200, yelopic, 200, 200)
+        ).setPosition(width / 2 - 200, height / 2 - 100)
+
         if (Random.nextInt() % 2 == 0) trigger = true
         rollingSliderPercentage = 1f
         isOver = false
@@ -60,16 +65,13 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
         if (!isOver) isRollOver()
         else shouldSendPacket()
 
-        var curX = 0
-        var curY = 0
+        var curX = width / 2 + 30
+        var curY = height / 2 - mcFont.lineHeight - 10
 
         if (isOver) rollingText = "Your result is:"
 
-        curX = width / 2 - 60
-        curY = height / 2 - mcFont.lineHeight
-
         renderScaledText(graphics, rollingText,
-            curX, curY, 10, Color.WHITE.rgb, 1.5f)
+            curX - 10, curY, 10, Color.WHITE.rgb, 1.5f)
 
         curY += mcFont.lineHeight * 4 - 10
 
