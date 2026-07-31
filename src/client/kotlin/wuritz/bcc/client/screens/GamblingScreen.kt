@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import wuritz.bcc.BetterCreeperConsent
+import wuritz.bcc.client.utils.RenderUtils
 import wuritz.bcc.client.utils.timer.CacheTimer
 import wuritz.bcc.network.payloads.ResponsePayload
 import java.awt.Color
@@ -64,13 +65,13 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
 
         if (!isOver) isRollOver()
         else shouldSendPacket()
-
+W
         var curX = width / 2 + 30
-        var curY = height / 2 - mcFont.lineHeight - 10
+        var curY = height / 2 - mcFont.lineHeight - 15
 
         if (isOver) rollingText = "Your result is:"
 
-        renderScaledText(graphics, rollingText,
+        RenderUtils.renderScaledText(graphics, rollingText,
             curX - 10, curY, 10, Color.WHITE.rgb, 1.5f)
 
         curY += mcFont.lineHeight * 4 - 10
@@ -78,8 +79,10 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
         val resultString = getResultString()
         val resultColor = if (!isOver) Color.WHITE.rgb else if (state == State.ALLOW) Color.GREEN.rgb else Color.RED.rgb
 
-        graphics.fill(curX - 10, curY - 10, curX + 150, curY + 40, Color(102, 102, 102, 160).rgb)
-        renderScaledText(graphics, resultString,
+        // Result backgrounds
+        graphics.fill(curX - 10, curY - 10, curX + 150, curY + 40, Color(30, 30, 30, 160).rgb)
+        graphics.fill(curX - 5, curY - 5, curX + 145, curY + 35, Color(102, 102, 102, 160).rgb)
+        RenderUtils.renderScaledText(graphics, resultString,
             curX, curY, 20, resultColor, 4f)
 
         if (!isOver) {
@@ -145,23 +148,6 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
             state = State.DENY
             return "Deny"
         }
-    }
-
-    /**
-     * Helpers
-     */
-
-    private fun renderScaledText(graphics: GuiGraphicsExtractor, text: String, textX: Int, textY: Int, textWidth: Int, color: Int, scale: Float) {
-        val matrices = graphics.pose()
-
-        matrices.pushMatrix()
-        matrices.scale(scale, scale)
-
-        graphics.textWithBackdrop(Minecraft.getInstance().font,
-            Component.literal(text),
-            (textX / scale).toInt(), (textY / scale).toInt(), textWidth, color)
-
-        matrices.popMatrix()
     }
 
     enum class State {

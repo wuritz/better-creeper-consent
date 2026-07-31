@@ -29,13 +29,6 @@
 			}
 		]
 	},
-	"custom": {
-		"modmenu": {
-			"links": {
-				"modmenu.asd" : "https://google.com"
-			}
-		}
-	},
 	"mixins": [
 		"better-creeper-consent.mixins.json"
 	],

@@ -85,7 +85,6 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
             getGamblingButtonX() + totalButtonWidth + 2, getGamblingButtonY() + BUTTON_HEIGHT + 2,
             Color(244, 255, 110, 100).rgb)
 
-
         super.extractRenderState(graphics, mouseX, mouseY, a)
     }
 
@@ -120,7 +119,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
      */
 
     private fun getButtonY() : Int {
-        val boxY = height / 2 - BOX_HEIGHT / 2
+        val boxY = height / 2 - BOX_HEIGHT / 2 - 10
         return boxY + 50
     }
 
