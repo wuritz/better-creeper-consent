@@ -9,6 +9,7 @@ import net.minecraft.world.entity.monster.Creeper
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import wuritz.bcc.BetterCreeperConsent
+import wuritz.bcc.LuckyAction
 import wuritz.bcc.network.CreeperQueue
 import wuritz.bcc.network.payloads.LuckyPayload
 import wuritz.bcc.network.payloads.OpenConsentPayload
@@ -48,10 +49,13 @@ object IncomingConnection {
         if (creeper !is Creeper) return
         val pos = creeper.blockPosition()
 
+        val lucky = LuckyAction(pos, world)
+        lucky.run()
+
         // Spawn
-        val stack = ItemStack(Items.GUNPOWDER)
+        /*val stack = ItemStack(Items.GUNPOWDER)
         val entity = ItemEntity(world, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, stack)
-        world.addFreshEntity(entity)
+        world.addFreshEntity(entity)*/
     }
 
     private fun handleResponse(player: ServerPlayer, creeperId: Int, allowed: Boolean, playerInitialized: Boolean) {
