@@ -38,7 +38,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
         val gamblingButtonX = getGamblingButtonX()
 
         addRenderableWidget(ImageWidget.texture(200, 200, yelopic, 200, 200))
-            .setPosition(width / 2 - 200, height / 2 - 100)
+            .setPosition(getPictureX(), getPictureY())
 
         /**
          * Allow
@@ -72,6 +72,19 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
     override fun extractRenderState(graphics: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, a: Float) {
         // Background
         graphics.fill(0, 0, width, height, 0xAA050A05.toInt())
+
+        graphics.fill(
+            getPictureX() - 25,
+            getPictureY() - 25,
+            getDenyButtonX() + BUTTON_WIDTH + 25,
+            getPictureY() + 225,
+            Color(45, 61, 43, 180).rgb)
+        graphics.fill(
+            getPictureX() - 20,
+            getPictureY() - 20,
+            getDenyButtonX() + BUTTON_WIDTH + 20,
+            getPictureY() + 220,
+            Color(17, 23, 16, 180).rgb)
 
         graphics.fill(getAllowButtonX() - 2, getButtonY() - 2,
             getAllowButtonX() + BUTTON_WIDTH + 2, getButtonY() + 2 + BUTTON_HEIGHT,
@@ -138,6 +151,14 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
 
     private fun getGamblingButtonY() : Int {
         return getButtonY() + BUTTON_HEIGHT + 10
+    }
+
+    private fun getPictureX() : Int {
+        return width / 2 - 200
+    }
+
+    private fun getPictureY() : Int {
+        return height / 2 - 100
     }
 
     /**

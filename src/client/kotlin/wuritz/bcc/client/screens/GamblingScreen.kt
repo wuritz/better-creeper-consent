@@ -65,7 +65,7 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
 
         if (!isOver) isRollOver()
         else shouldSendPacket()
-W
+
         var curX = width / 2 + 30
         var curY = height / 2 - mcFont.lineHeight - 15
 
@@ -81,7 +81,7 @@ W
 
         // Result backgrounds
         graphics.fill(curX - 10, curY - 10, curX + 150, curY + 40, Color(30, 30, 30, 160).rgb)
-        graphics.fill(curX - 5, curY - 5, curX + 145, curY + 35, Color(102, 102, 102, 160).rgb)
+        graphics.fill(curX - 7, curY - 7, curX + 147, curY + 37, Color(102, 102, 102, 160).rgb)
         RenderUtils.renderScaledText(graphics, resultString,
             curX, curY, 20, resultColor, 4f)
 
