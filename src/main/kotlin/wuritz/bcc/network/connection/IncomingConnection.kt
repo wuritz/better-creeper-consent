@@ -2,12 +2,15 @@ package wuritz.bcc.network.connection
 
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
-import net.minecraft.ChatFormatting
-import net.minecraft.network.chat.Component
+import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.monster.Creeper
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import wuritz.bcc.BetterCreeperConsent
 import wuritz.bcc.network.CreeperQueue
+import wuritz.bcc.network.payloads.LuckyPayload
 import wuritz.bcc.network.payloads.OpenConsentPayload
 import wuritz.bcc.network.payloads.ResponsePayload
 import wuritz.bcc.utils.MessageSender
@@ -18,6 +21,7 @@ object IncomingConnection {
     fun init() {
         PayloadTypeRegistry.clientboundPlay().register(OpenConsentPayload.TYPE, OpenConsentPayload.CODEC)
         PayloadTypeRegistry.serverboundPlay().register(ResponsePayload.TYPE, ResponsePayload.CODEC)
+        PayloadTypeRegistry.serverboundPlay().register(LuckyPayload.TYPE, LuckyPayload.CODEC)
 
         ServerPlayNetworking.registerGlobalReceiver(
             ResponsePayload.TYPE
@@ -26,6 +30,28 @@ object IncomingConnection {
 
             context.server().execute { handleResponse(player, payload.creeperId, payload.allowed, payload.playerInitialized) }
         }
+
+        ServerPlayNetworking.registerGlobalReceiver(
+            LuckyPayload.TYPE
+        ) { payload, context ->
+            val player = context.player()
+
+            context.server().execute { handleLucky(player, payload.creeperId) }
+        }
+    }
+
+    private fun handleLucky(player: ServerPlayer, creeperId: Int) {
+        BetterCreeperConsent.LOG.info("Halo")
+        val world = player.level()
+
+        val creeper = world.getEntity(creeperId)
+        if (creeper !is Creeper) return
+        val pos = creeper.blockPosition()
+
+        // Spawn
+        val stack = ItemStack(Items.GUNPOWDER)
+        val entity = ItemEntity(world, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, stack)
+        world.addFreshEntity(entity)
     }
 
     private fun handleResponse(player: ServerPlayer, creeperId: Int, allowed: Boolean, playerInitialized: Boolean) {
@@ -46,11 +72,10 @@ object IncomingConnection {
         if (allowed) {
             BetterCreeperConsent.LOG.info("{} allowed creeper id {} to explode", player.name, creeperId)
 
-            CreeperQueue.approve(creeperUuid)
             creeper.swellDir = 1 // normal behaviour
             creeper.ignite()
+            CreeperQueue.approve(creeperUuid)
 
-            // TODO: randomize text
             MessageSender.sendAllowMsg(player)
         } else {
             BetterCreeperConsent.LOG.info("{} denied creeper id {}", player.name, creeperId)
@@ -58,7 +83,6 @@ object IncomingConnection {
             CreeperQueue.clearEntry(creeperUuid)
             creeper.discard()
 
-            // TODO: randomize text
             if (playerInitialized) MessageSender.sendDenyMsg(player)
         }
     }

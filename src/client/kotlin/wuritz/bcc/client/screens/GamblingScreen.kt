@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundEvents
 import wuritz.bcc.BetterCreeperConsent
 import wuritz.bcc.client.utils.RenderUtils
 import wuritz.bcc.client.utils.timer.CacheTimer
+import wuritz.bcc.network.payloads.LuckyPayload
 import wuritz.bcc.network.payloads.ResponsePayload
 import java.awt.Color
 import java.util.concurrent.TimeUnit
@@ -27,7 +28,13 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
     val overTimer = CacheTimer()
     val sliderTimer = CacheTimer()
 
-    val steps = listOf(50, 100, 250, 500)
+    val steps = listOf( // 50, 100, 250, 500
+        Random.nextInt(30, 80),
+        Random.nextInt(80, 110),
+        Random.nextInt(230, 280),
+        Random.nextInt(380, 550)
+    )
+
     var currentStep = 0
     var trigger = false
 
@@ -48,7 +55,7 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
         sliderTimer.reset()
 
         addRenderableWidget(ImageWidget.texture(200, 200, yelopic, 200, 200)
-        ).setPosition(width / 2 - 200, height / 2 - 100)
+        ).setPosition(getPictureX(), getPictureY())
 
         if (Random.nextInt() % 2 == 0) trigger = true
         rollingSliderPercentage = 1f
@@ -63,45 +70,94 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
         // Background
         graphics.fill(0, 0, width, height, 0xAA050A05.toInt())
 
+        // Another background
+        graphics.fill(
+            getPictureX() - 25,
+            getPictureY() - 25,
+            getResultX() + 171 + 25,
+            getPictureY() + 225,
+            Color(45, 61, 43, 180).rgb)
+        graphics.fill(
+            getPictureX() - 20,
+            getPictureY() - 20,
+            getResultX() + 171 + 20,
+            getPictureY() + 220,
+            Color(17, 23, 16, 180).rgb)
+
         if (!isOver) isRollOver()
         else shouldSendPacket()
 
-        var curX = width / 2 + 30
-        var curY = height / 2 - mcFont.lineHeight - 15
-
+        // Rolling text
         if (isOver) rollingText = "Your result is:"
-
         RenderUtils.renderScaledText(graphics, rollingText,
-            curX - 10, curY, 10, Color.WHITE.rgb, 1.5f)
+            getRollingX() - 8, getRollingY(), 10, Color.WHITE.rgb, 1.5f)
 
-        curY += mcFont.lineHeight * 4 - 10
-
+        // Result
         val resultString = getResultString()
         val resultColor = if (!isOver) Color.WHITE.rgb else if (state == State.ALLOW) Color.GREEN.rgb else Color.RED.rgb
 
         // Result backgrounds
-        graphics.fill(curX - 10, curY - 10, curX + 150, curY + 40, Color(30, 30, 30, 160).rgb)
-        graphics.fill(curX - 7, curY - 7, curX + 147, curY + 37, Color(102, 102, 102, 160).rgb)
-        RenderUtils.renderScaledText(graphics, resultString,
-            curX, curY, 20, resultColor, 4f)
+        graphics.fill(getResultX() - 10, getResultY() - 10, getResultX() + 160, getResultY() + 40, Color(0, 0, 0, 200).rgb)
+        graphics.fill(getResultX() - 7, getResultY() - 7, getResultX() + 157, getResultY() + 37, Color(102, 102, 102, 160).rgb)
 
+        RenderUtils.renderScaledText(graphics, resultString,
+            getResultX(), getResultY(), 20, resultColor, 4f)
+
+        // Slider action
         if (!isOver) {
             val passed = (endTimer.getElapsedTime(TimeUnit.MILLISECONDS) / 50).toInt()
 
             rollingSliderPercentage = 1f - passed/100f
             val sliderToDraw = (140 * (rollingSliderPercentage)).toInt()
 
-            curX -= 10
-            curY += 40
-
             val rColor = (initR + (255 - initR) * passed/100)
             val gColor = (initG + (255 - initG) * passed/100)
             val bColor = (initB + (255 - initB) * passed/100)
-            graphics.fill(curX, curY, sliderToDraw + curX, curY - 2, Color(rColor, gColor, bColor, 255).rgb)
+            graphics.fill(getSliderX(), getSliderY(), sliderToDraw + getSliderX(), getSliderY() - 2, Color(rColor, gColor, bColor, 255).rgb)
         }
 
         super.extractRenderState(graphics, mouseX, mouseY, a)
     }
+
+    /**
+     * Position helpers
+     */
+
+    private fun getRollingX() : Int {
+        return width / 2 + 30
+    }
+
+    private fun getRollingY() : Int {
+        return height / 2 - mcFont.lineHeight - 25
+    }
+
+    private fun getResultX() : Int {
+        return getRollingX() + 2
+    }
+
+    private fun getResultY() : Int {
+        return getRollingY() + mcFont.lineHeight * 4 - 8
+    }
+
+    private fun getSliderX() : Int {
+        return getResultX() - 10
+    }
+
+    private fun getSliderY() : Int {
+        return getResultY() + 40
+    }
+
+    private fun getPictureX() : Int {
+        return width / 2 - 200
+    }
+
+    private fun getPictureY() : Int {
+        return height / 2 - 100
+    }
+
+    /**
+     * Other helpers
+     */
 
     private fun getResultString() : String {
         return if (!isOver) getStateString()
@@ -123,6 +179,7 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
     private fun shouldSendPacket() {
         if (!overTimer.passed(2000)) return
 
+        if (state == State.DENY) ClientPlayNetworking.send(LuckyPayload(creeperId))
         ClientPlayNetworking.send(ResponsePayload(creeperId, state == State.ALLOW, playerInitialized = true))
         onClose()
     }

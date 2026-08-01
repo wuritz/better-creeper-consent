@@ -73,6 +73,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
         // Background
         graphics.fill(0, 0, width, height, 0xAA050A05.toInt())
 
+        // Another background
         graphics.fill(
             getPictureX() - 25,
             getPictureY() - 25,

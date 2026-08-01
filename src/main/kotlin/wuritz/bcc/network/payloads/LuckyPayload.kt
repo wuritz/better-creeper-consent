@@ -8,18 +8,18 @@ import net.minecraft.resources.Identifier
 import wuritz.bcc.BetterCreeperConsent
 
 @JvmRecord
-data class OpenConsentPayload(val creeperId: Int) : CustomPacketPayload {
+data class LuckyPayload(val creeperId: Int) : CustomPacketPayload {
 
     companion object {
-        val PAYLOAD_ID = Identifier.fromNamespaceAndPath(BetterCreeperConsent.MOD_ID, "open_consent_screen")
-        val TYPE: CustomPacketPayload.Type<OpenConsentPayload> = CustomPacketPayload.Type(PAYLOAD_ID)
-        val CODEC: StreamCodec<RegistryFriendlyByteBuf, OpenConsentPayload> =
-            StreamCodec.composite(ByteBufCodecs.INT, OpenConsentPayload::creeperId, ::OpenConsentPayload)
+        val PAYLOAD_ID = Identifier.fromNamespaceAndPath(BetterCreeperConsent.MOD_ID, "lucky_payload")
+        val TYPE: CustomPacketPayload.Type<LuckyPayload> = CustomPacketPayload.Type(PAYLOAD_ID)
+        val CODEC: StreamCodec<RegistryFriendlyByteBuf, LuckyPayload> =
+            StreamCodec.composite(
+                ByteBufCodecs.INT, LuckyPayload::creeperId,
+                ::LuckyPayload)
     }
 
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
         return TYPE
     }
-
-
 }
