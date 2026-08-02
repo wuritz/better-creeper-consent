@@ -1,6 +1,6 @@
-<h1 style="text-align: center">Better Creeper Consent</h1>
+<h1 align="center">Better Creeper Consent</h1>
 
-<p style="text-align: center">Allow or deny every creeper explosion that happens around you!</p>
+<p align="center">Allow or deny every creeper explosion that happens around you!</p>
 
 <img align="center" src="assets/screen1.png">
 
