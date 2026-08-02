@@ -3,7 +3,7 @@
 	"id": "better-creeper-consent",
 	"version": "${version}",
 	"name": "Better Creeper Consent",
-	"description": "You decide whether creepers explode or not!",
+	"description": "Make creepers ask for permission before blowing up everything around you!",
 	"authors": [
 		"wuritz"
 	],
