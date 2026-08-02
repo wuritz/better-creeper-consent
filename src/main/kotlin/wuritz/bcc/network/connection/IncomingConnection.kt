@@ -65,6 +65,7 @@ object IncomingConnection {
         val distance = player.distanceTo(creeper)
         if (distance > Utils.EXPLOSION_RADIUS) {
             BetterCreeperConsent.LOG.error("{} sent a response, but is now out of the creeper's (id {}) radius.", player.name, creeperId)
+            creeper.discard()
             CreeperQueue.clearEntry(creeperUuid)
             return
         }
