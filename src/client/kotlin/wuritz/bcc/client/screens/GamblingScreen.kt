@@ -90,14 +90,14 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
         // Rolling text
         if (isOver) rollingText = "Your result is:"
         RenderUtils.renderScaledText(graphics, rollingText,
-            getRollingX() - 8, getRollingY(), 10, Color.WHITE.rgb, 1.5f)
+            getRollingX() - 5, getRollingY(), 10, Color.WHITE.rgb, 1.5f)
 
         // Result
         val resultString = getResultString()
         val resultColor = if (!isOver) Color.WHITE.rgb else if (state == State.ALLOW) Color.GREEN.rgb else Color.RED.rgb
 
         // Result backgrounds
-        graphics.fill(getResultX() - 10, getResultY() - 10, getResultX() + 160, getResultY() + 40, Color(0, 0, 0, 200).rgb)
+        graphics.fill(getResultX() - 10, getResultY() - 10, getResultX() + 160, getResultY() + 40, Color(40, 40, 40, 200).rgb)
         graphics.fill(getResultX() - 7, getResultY() - 7, getResultX() + 157, getResultY() + 37, Color(102, 102, 102, 160).rgb)
 
         RenderUtils.renderScaledText(graphics, resultString,
@@ -124,11 +124,11 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
      */
 
     private fun getRollingX() : Int {
-        return width / 2 + 30
+        return width / 2 + 26
     }
 
     private fun getRollingY() : Int {
-        return height / 2 - mcFont.lineHeight - 25
+        return height / 2 - mcFont.lineHeight - 27
     }
 
     private fun getResultX() : Int {

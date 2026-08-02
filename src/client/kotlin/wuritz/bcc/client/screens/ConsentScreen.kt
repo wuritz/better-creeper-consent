@@ -89,15 +89,15 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
 
         graphics.fill(getAllowButtonX() - 2, getButtonY() - 2,
             getAllowButtonX() + BUTTON_WIDTH + 2, getButtonY() + 2 + BUTTON_HEIGHT,
-            Color(87, 255, 92, 100).rgb)
+            Color(87, 255, 92, 200).rgb)
 
         graphics.fill(getDenyButtonX() - 2, getButtonY() - 2,
             getDenyButtonX() + BUTTON_WIDTH + 2, getButtonY() + 2 + BUTTON_HEIGHT,
-            Color(255, 110, 110, 100).rgb)
+            Color(255, 110, 110, 200).rgb)
 
         graphics.fill(getGamblingButtonX() - 2, getGamblingButtonY() - 2,
             getGamblingButtonX() + totalButtonWidth + 2, getGamblingButtonY() + BUTTON_HEIGHT + 2,
-            Color(244, 255, 110, 100).rgb)
+            Color(244, 255, 110, 200).rgb)
 
         super.extractRenderState(graphics, mouseX, mouseY, a)
     }

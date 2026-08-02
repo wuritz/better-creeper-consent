@@ -2,7 +2,9 @@ package wuritz.bcc
 
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.item.PrimedTnt
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import kotlin.random.Random
 
@@ -33,11 +35,18 @@ class LuckyAction(val pos: BlockPos, val level: ServerLevel) {
         // decide whether to drop item or ignite tnt
         val rand = Random.nextInt(100)
         if (rand <= 5) tnt()
-        else tnt()
+        else drop()
     }
 
     fun drop() {
+        val rand = Random.nextInt(100)
 
+        val stack: ItemStack = if (rand <= 1) ItemStack(LEGENDARY_ITEMS.random())
+        else if (rand <= 9) ItemStack(RARE_ITEMS.random())
+        else ItemStack(COMMON_ITEMS.random())
+
+        val entity = ItemEntity(level, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, stack)
+        level.addFreshEntity(entity)
     }
 
     fun tnt() {

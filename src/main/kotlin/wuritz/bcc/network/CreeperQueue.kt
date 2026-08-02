@@ -6,13 +6,15 @@ import java.util.concurrent.ConcurrentHashMap
 object CreeperQueue {
     private val pending: MutableSet<UUID> = ConcurrentHashMap.newKeySet()
     private val approved: MutableSet<UUID> = ConcurrentHashMap.newKeySet()
+    private val successful: MutableSet<UUID> = ConcurrentHashMap.newKeySet()
 
     fun markPending(uuid: UUID) : Boolean {
-        return pending.add(uuid)
+        return pending.add(uuid) && !successful.contains(uuid)
     }
 
     fun approve(uuid: UUID) : Boolean {
         approved.add(uuid)
+        successful.add(uuid)
         return pending.remove(uuid)
     }
 
