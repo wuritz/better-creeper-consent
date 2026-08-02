@@ -1,5 +1,5 @@
 package wuritz.bcc.utils
 
 object Utils {
-    const val EXPLOSION_RADIUS = 8f
+    const val EXPLOSION_RADIUS = 10f
 }

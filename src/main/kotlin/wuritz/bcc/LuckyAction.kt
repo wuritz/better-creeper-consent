@@ -2,20 +2,22 @@ package wuritz.bcc
 
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.item.PrimedTnt
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import wuritz.bcc.utils.MessageSender
 import kotlin.random.Random
 
-class LuckyAction(val pos: BlockPos, val level: ServerLevel) {
+class LuckyAction(val pos: BlockPos, val level: ServerLevel, val player: ServerPlayer) {
 
     val COMMON_ITEMS = listOf(
-        Items.GUNPOWDER, Items.STRING, Items.DIRT, Items.COBBLESTONE
+        Items.GUNPOWDER, Items.STRING, Items.DIRT, Items.COBBLESTONE, Items.OAK_LOG
     )
 
     val RARE_ITEMS = listOf(
-        Items.COOKED_COD, Items.TNT
+        Items.COD, Items.TNT
     )
 
     val LEGENDARY_ITEMS = listOf(
@@ -53,6 +55,7 @@ class LuckyAction(val pos: BlockPos, val level: ServerLevel) {
         val tnt = PrimedTnt(level, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, null)
         tnt.fuse = 80
         level.addFreshEntity(tnt)
+        MessageSender.sendTntMsg(player)
     }
 
 }

@@ -28,10 +28,8 @@ object OutgoingConnection {
 
         creeper.swellDir = -1
 
-        for (player in nearbyPlayers) {
-            BetterCreeperConsent.LOG.info("Sending consent screen to {} for creeper {}", player.name, creeper.uuid)
-            sendConsentScreen(player, creeper)
-        }
+        BetterCreeperConsent.LOG.info("Sending consent screen to {} for creeper {}", nearbyPlayers[0].name, creeper.uuid)
+        sendConsentScreen(nearbyPlayers[0], creeper)
     }
 
     private fun sendConsentScreen(player: ServerPlayer, creeper: Creeper) {

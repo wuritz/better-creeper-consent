@@ -17,8 +17,9 @@ public abstract class CreeperMixin {
 
         if (CreeperQueue.INSTANCE.consumeApproved(creeper.getUUID())) return;
 
-        ci.cancel();
+        if (CreeperQueue.INSTANCE.wasAlreadyApproved(creeper.getUUID())) return;
 
+        ci.cancel();
         OutgoingConnection.INSTANCE.triggerConsent(creeper);
     }
 

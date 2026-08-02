@@ -1,6 +1,5 @@
 package wuritz.bcc.client.screens
 
-import com.mojang.authlib.minecraft.client.MinecraftClient
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
@@ -72,7 +71,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
     override fun extractRenderState(graphics: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, a: Float) {
         // Background
         graphics.fill(0, 0, width, height, 0xAA050A05.toInt())
-
+        /*
         // Another background
         graphics.fill(
             getPictureX() - 25,
@@ -85,7 +84,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
             getPictureY() - 20,
             getDenyButtonX() + BUTTON_WIDTH + 20,
             getPictureY() + 220,
-            Color(17, 23, 16, 180).rgb)
+            Color(17, 23, 16, 180).rgb)*/
 
         graphics.fill(getAllowButtonX() - 2, getButtonY() - 2,
             getAllowButtonX() + BUTTON_WIDTH + 2, getButtonY() + 2 + BUTTON_HEIGHT,

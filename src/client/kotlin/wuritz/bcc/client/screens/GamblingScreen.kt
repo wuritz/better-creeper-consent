@@ -44,9 +44,9 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
     // Rolling
     var rollingText = "Rolling..."
     var rollingSliderPercentage = 1f
-    val initR = Random.nextInt(0, 255)
-    val initG = Random.nextInt(0, 255)
-    val initB = Random.nextInt(0, 255)
+    val initR = 0 // Random.nextInt(0, 255)
+    val initG = 255 // Random.nextInt(0, 255)
+    val initB = 0 // Random.nextInt(0, 255)
 
     override fun init() {
         secTimer.reset()
@@ -70,6 +70,7 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
         // Background
         graphics.fill(0, 0, width, height, 0xAA050A05.toInt())
 
+        /*
         // Another background
         graphics.fill(
             getPictureX() - 25,
@@ -82,7 +83,7 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
             getPictureY() - 20,
             getResultX() + 171 + 20,
             getPictureY() + 220,
-            Color(17, 23, 16, 180).rgb)
+            Color(17, 23, 16, 180).rgb)*/
 
         if (!isOver) isRollOver()
         else shouldSendPacket()
@@ -97,8 +98,8 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
         val resultColor = if (!isOver) Color.WHITE.rgb else if (state == State.ALLOW) Color.GREEN.rgb else Color.RED.rgb
 
         // Result backgrounds
-        graphics.fill(getResultX() - 10, getResultY() - 10, getResultX() + 160, getResultY() + 40, Color(40, 40, 40, 200).rgb)
-        graphics.fill(getResultX() - 7, getResultY() - 7, getResultX() + 157, getResultY() + 37, Color(102, 102, 102, 160).rgb)
+        graphics.fill(getResultX() - 10, getResultY() - 10, getResultX() + 160, getResultY() + 40, Color(40, 40, 40, 100).rgb)
+        graphics.fill(getResultX() - 7, getResultY() - 7, getResultX() + 157, getResultY() + 37, Color(102, 102, 102, 100).rgb)
 
         RenderUtils.renderScaledText(graphics, resultString,
             getResultX(), getResultY(), 20, resultColor, 4f)
@@ -113,7 +114,7 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
             val rColor = (initR + (255 - initR) * passed/100)
             val gColor = (initG + (255 - initG) * passed/100)
             val bColor = (initB + (255 - initB) * passed/100)
-            graphics.fill(getSliderX(), getSliderY(), sliderToDraw + getSliderX(), getSliderY() - 2, Color(rColor, gColor, bColor, 255).rgb)
+            graphics.fill(getSliderX(), getSliderY(), sliderToDraw + getSliderX(), getSliderY() - 3, Color(rColor, gColor, bColor, 255).rgb)
         }
 
         super.extractRenderState(graphics, mouseX, mouseY, a)

@@ -6,6 +6,7 @@ import wuritz.bcc.BetterCreeperConsent
 import wuritz.bcc.client.screens.ConsentScreen
 import wuritz.bcc.network.payloads.OpenConsentPayload
 import wuritz.bcc.network.payloads.ResponsePayload
+import wuritz.bcc.utils.MessageSender
 
 object BetterCreeperConsentClient : ClientModInitializer {
 	override fun onInitializeClient() {

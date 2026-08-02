@@ -25,5 +25,8 @@ object CreeperQueue {
     fun clearEntry(uuid: UUID) {
         pending.remove(uuid)
         approved.remove(uuid)
+        successful.remove(uuid)
     }
+
+    fun wasAlreadyApproved(uuid: UUID) : Boolean = successful.contains(uuid)
 }

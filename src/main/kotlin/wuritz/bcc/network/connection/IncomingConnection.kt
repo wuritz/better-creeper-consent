@@ -1,13 +1,10 @@
 package wuritz.bcc.network.connection
 
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
-import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.monster.Creeper
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
 import wuritz.bcc.BetterCreeperConsent
 import wuritz.bcc.LuckyAction
 import wuritz.bcc.network.CreeperQueue
@@ -39,6 +36,12 @@ object IncomingConnection {
 
             context.server().execute { handleLucky(player, payload.creeperId) }
         }
+
+        ServerLivingEntityEvents.AFTER_DEATH.register { entity, _ ->
+            if (entity is Creeper) {
+                CreeperQueue.clearEntry(entity.uuid)
+            }
+        }
     }
 
     private fun handleLucky(player: ServerPlayer, creeperId: Int) {
@@ -48,7 +51,7 @@ object IncomingConnection {
         if (creeper !is Creeper) return
         val pos = creeper.blockPosition()
 
-        val lucky = LuckyAction(pos, world)
+        val lucky = LuckyAction(pos, world, player)
         lucky.run()
     }
 
@@ -69,18 +72,19 @@ object IncomingConnection {
         if (allowed) {
             BetterCreeperConsent.LOG.info("{} allowed creeper id {} to explode", player.name, creeperId)
 
+            CreeperQueue.approve(creeperUuid)
             creeper.swellDir = 1 // normal behaviour
             creeper.ignite()
-            CreeperQueue.approve(creeperUuid)
 
             MessageSender.sendAllowMsg(player)
         } else {
             BetterCreeperConsent.LOG.info("{} denied creeper id {}", player.name, creeperId)
 
             creeper.discard()
-
-            if (playerInitialized) MessageSender.sendDenyMsg(player)
             CreeperQueue.clearEntry(creeperUuid)
+
+            //if (playerInitialized) MessageSender.sendDenyMsg(player)
+            MessageSender.sendDenyMsg(player)
         }
     }
 
