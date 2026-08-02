@@ -53,7 +53,7 @@ object MessageSender {
             output.append(
                 Component.literal(
                     "Here's a gift for you :3")
-                    .withStyle(ChatFormatting.GREEN)
+                    .withStyle(ChatFormatting.RED)
             )
         )
     }

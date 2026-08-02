@@ -2,19 +2,21 @@
 
 <p align="center">Allow or deny every creeper explosion that happens around you!</p>
 
-<img align="center" src="assets/screen1.png">
+<div align="center">
+    <img src="assets/screen1.png" alt="screen1">
+</div>
 
 ## Features
-- Before a creeper explodes, a screen pops up.
+- Before a creeper explodes, a *screen pops up*.
 - You can either `Allow` or `Deny` the request, or you can `Gamble` to let it be chosen randomly
 
-## Gambling
+## Gambling ✨
 If you wanna test your luck, you can press the `Gambling` button.
-The gambling part is simple: if you roll `Allowed` you explode, but if you roll `Denied` you get a random item.
+The gambling part is simple: if you roll `Allowed` - you explode, but if you roll `Denied` - you get a *random item*!
 
-### Prices
-There are 3 categories of prizes you can get: Common, Rare and Legendary.
-These items are the following:
+### Prices  
+There are 3 categories of prizes you can get: Common, Rare and Legendary. 
+You can win various creeper-related items:
 
 | Rarity       | Items                                         |
 |--------------|-----------------------------------------------|
@@ -23,3 +25,19 @@ These items are the following:
 | 🟨 Legendary | Creeper Head, Diamond, Golden Apple           |
 
 *There's also a 5% chance you get an ignited TNT in the place of the creeper, instead of getting an item.*
+
+## Requirements
+These are required for the mod to run:
+
+- Minecraft `26.2`
+- Fabric **API**
+- Fabric **Kotlin**
+
+## Installation
+- Download the latest `.jar` file here or on Modrinth
+- Locate your `mods/` folder
+- Put the BCC `.jar` file alongside with your Fabric API and Kotlin `.jar` files
+- Have fun!
+
+## License
+MIT © wuritz

@@ -25,9 +25,9 @@ class LuckyAction(val pos: BlockPos, val level: ServerLevel, val player: ServerP
     )
 
     /**
-     * Common: 90%
-     * Rare: 9%
-     * Legendary: 1%
+     * Common: 70%
+     * Rare: 20%
+     * Legendary: 10%
      */
 
     /**
@@ -43,8 +43,8 @@ class LuckyAction(val pos: BlockPos, val level: ServerLevel, val player: ServerP
     fun drop() {
         val rand = Random.nextInt(100)
 
-        val stack: ItemStack = if (rand <= 1) ItemStack(LEGENDARY_ITEMS.random())
-        else if (rand <= 9) ItemStack(RARE_ITEMS.random())
+        val stack: ItemStack = if (rand <= 10) ItemStack(LEGENDARY_ITEMS.random())
+        else if (rand <= 20) ItemStack(RARE_ITEMS.random())
         else ItemStack(COMMON_ITEMS.random())
 
         val entity = ItemEntity(level, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, stack)
