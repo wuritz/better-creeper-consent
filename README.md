@@ -6,16 +6,22 @@
     <img src="assets/screen1.png" alt="screen1">
 </div>
 
-## Requirements
-These are **required** for the mod to run:
+## ❗ Requirements ❗
 
-- Minecraft `26.2`
-- Fabric **API**
-- Fabric **Kotlin**
+> [!IMPORTANT]
+> Better Creeper Consent won't launch without these mods installed
+
+- Minecraft - `26.2` or newer
+- Fabric **API** - *(a version that supports MC 26.2)*
+- Fabric **Kotlin** - *(a version that supports MC 26.2)*
 
 ## Features
 - Before a creeper explodes, a *screen pops up*.
 - You can either `Allow` or `Deny` the request, or you can `Gamble` to let it be chosen randomly
+
+> [!NOTE]
+> - If there are multiple creepers around, only **1 gets to ask for consent**, while the other ones are _automatically denied and won't explode_. 
+> - While playing on multiplayer, note that **one creeper** sends a consent request to **one player** ONLY, and that's *the nearest player to the creeper*.
 
 ## Gambling ✨
 If you wanna test your luck, you can press the `Gambling` button.
@@ -31,10 +37,11 @@ You can win various creeper-related items:
 | 🟦 Rare      | Raw Cod, TNT                                  |
 | 🟨 Legendary | Creeper Head, Diamond, Golden Apple           |
 
-*There's also a 5% chance you get an ignited TNT in the place of the creeper, instead of getting an item.*
+> [!WARNING]
+> There's also a 5% chance you get an **ignited TNT** in the place of the creeper, instead of getting an item drop.
 
 ## Installation
-- Download the latest `.jar` file here or on Modrinth
+- Download the latest `.jar` file from here or from Modrinth
 - Locate your `mods/` folder
 - Put the BCC `.jar` file alongside with your Fabric API and Kotlin `.jar` files
 - Have fun!
