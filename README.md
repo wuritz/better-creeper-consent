@@ -6,6 +6,13 @@
     <img src="assets/screen1.png" alt="screen1">
 </div>
 
+## Requirements
+These are **required** for the mod to run:
+
+- Minecraft `26.2`
+- Fabric **API**
+- Fabric **Kotlin**
+
 ## Features
 - Before a creeper explodes, a *screen pops up*.
 - You can either `Allow` or `Deny` the request, or you can `Gamble` to let it be chosen randomly
@@ -25,13 +32,6 @@ You can win various creeper-related items:
 | 🟨 Legendary | Creeper Head, Diamond, Golden Apple           |
 
 *There's also a 5% chance you get an ignited TNT in the place of the creeper, instead of getting an item.*
-
-## Requirements
-These are required for the mod to run:
-
-- Minecraft `26.2`
-- Fabric **API**
-- Fabric **Kotlin**
 
 ## Installation
 - Download the latest `.jar` file here or on Modrinth
