@@ -27,6 +27,17 @@
 If you wanna test your luck, you can press the `Gambling` button.
 The gambling part is simple: if you roll `Allowed` - you explode, but if you roll `Denied` - you get a *random item*!
 
+<details>
+    <summary>Images of Gambling</summary>
+    <h3>Rolling</h3>
+    Upon pressing the `Gambling` button, this screen pops up and immediately starts rolling:
+    <img src="assets/rolling.png" alt="rolling">
+    <br>
+    <h3>Result</h3>
+    After 5 seconds, you'll get a result:
+    <img src="assets/result.png" alt="result">
+</details>
+
 ### Prices  
 There are 3 categories of prizes you can get: Common, Rare and Legendary. 
 You can win various creeper-related items:
