@@ -9,13 +9,13 @@ import net.minecraft.client.gui.components.ImageWidget
 import net.minecraft.client.gui.components.Tooltip
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
-import wuritz.bcc.BetterCreeperConsent
+import wuritz.bcc.client.utils.ImageParser
 import wuritz.bcc.network.payloads.ResponsePayload
 import java.awt.Color
 
 class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
 
-    val yelopic = BetterCreeperConsent.id("yelo.png")
+    val creeperImage = ImageParser.getRandomCreeperImage()
 
     // box
     val BOX_WIDTH = 230
@@ -36,7 +36,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
         val denyButtonX = getDenyButtonX()
         val gamblingButtonX = getGamblingButtonX()
 
-        addRenderableWidget(ImageWidget.texture(200, 200, yelopic, 200, 200))
+        addRenderableWidget(ImageWidget.texture(200, 200, creeperImage, 200, 200))
             .setPosition(getPictureX(), getPictureY())
 
         /**
@@ -101,7 +101,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
         super.extractRenderState(graphics, mouseX, mouseY, a)
     }
 
-    /**y
+    /**
      * Click handlers
      */
     fun pressedAllow() {
@@ -119,7 +119,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
     fun pressedGambling() {
         allowedToClose = true
         onClose()
-        Minecraft.getInstance().setScreenAndShow(GamblingScreen(creeperId))
+        Minecraft.getInstance().setScreenAndShow(GamblingScreen(creeperId, creeperImage))
     }
 
     override fun onClose() {

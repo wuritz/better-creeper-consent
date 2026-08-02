@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.ImageWidget
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
+import net.minecraft.resources.Identifier
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import wuritz.bcc.BetterCreeperConsent
@@ -17,9 +18,8 @@ import java.awt.Color
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
-class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gambling")) {
+class GamblingScreen(val creeperId: Int, val creeperImage: Identifier) : Screen(Component.literal("Consent Gambling")) {
 
-    val yelopic = BetterCreeperConsent.id("yelo.png")
     var state = State.ALLOW
 
     val secTimer = CacheTimer()
@@ -54,7 +54,7 @@ class GamblingScreen(val creeperId: Int) : Screen(Component.literal("Consent Gam
         endTimer.reset()
         sliderTimer.reset()
 
-        addRenderableWidget(ImageWidget.texture(200, 200, yelopic, 200, 200)
+        addRenderableWidget(ImageWidget.texture(200, 200, creeperImage, 200, 200)
         ).setPosition(getPictureX(), getPictureY())
 
         if (Random.nextInt() % 2 == 0) trigger = true
