@@ -69,7 +69,8 @@ You can win various creeper-related items:
 - Have fun!
 
 ## Credits
-Thank you to my lovely girlfriend for making the illustrations, including the logo and the creepers :3
+- Thank you to my *lovely girlfriend* for making the illustrations, including the logo and the creepers :33
+- [Creeper's Consent](https://github.com/GameMech007-git/Creeper-Consent) by GameMech007, for giving the foundation and the idea for the mod
 
 ## License
 MIT © wuritz
