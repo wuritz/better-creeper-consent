@@ -12,11 +12,11 @@ object BetterCreeperConsent : ModInitializer {
 	val LOG: Logger = LoggerFactory.getLogger(MOD_ID)
 
 	override fun onInitialize() {
-		LOG.info("Initializing mod")
+		LOG.info("[Init] Initializing on server-side...")
 
 		IncomingConnection.init()
 
-		LOG.info("Mod initialized!")
+		LOG.info("[Init] Server-side initialized!")
 	}
 
 	fun id(path: String): Identifier

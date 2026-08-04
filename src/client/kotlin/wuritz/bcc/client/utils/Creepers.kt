@@ -13,7 +13,6 @@ data class CreeperTooltips(val allow: String, val deny: String, val gambling: St
 data class Creeper(val imagePath: String, val personality: CreeperPersonalities, val answers: CreeperAnswers, val tooltips: CreeperTooltips)
 
 class Creepers {
-
     val creepers = listOf(
         Creeper("creepers/crp1.png",
             CreeperPersonalities.Normal,

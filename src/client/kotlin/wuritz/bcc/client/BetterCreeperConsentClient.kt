@@ -9,7 +9,7 @@ import wuritz.bcc.network.payloads.ResponsePayload
 
 object BetterCreeperConsentClient : ClientModInitializer {
 	override fun onInitializeClient() {
-		BetterCreeperConsent.LOG.info("Initializing client")
+		BetterCreeperConsent.LOG.info("[Init] Initializing on client-side...")
 
 		ClientPlayNetworking.registerGlobalReceiver(OpenConsentPayload.TYPE) { payload, context ->
             val creeperId = payload.creeperId
@@ -24,6 +24,6 @@ object BetterCreeperConsentClient : ClientModInitializer {
 			}
         }
 
-		BetterCreeperConsent.LOG.info("Client has been initialized!")
+		BetterCreeperConsent.LOG.info("[Init] Initialized on client-side!")
     }
 }
