@@ -19,12 +19,12 @@ class Creepers {
             CreeperAnswers("Allow", "Deny", "Roll!"),
             CreeperTooltips("The creeper explodes.", "No explosion.", "Roll the outcome.")),
 
-        Creeper("creepers/crp1.png",
+        Creeper("creepers/crp2.png",
             CreeperPersonalities.Official,
             CreeperAnswers("Grant", "Refuse", "Gamble!"),
             CreeperTooltips("Grant the creeper permission to initiate detonation", "Prohibit the creeper's detonation", "Proceed with an uncalculated risk")),
 
-        Creeper("creepers/crp1.png",
+        Creeper("creepers/crp3.png",
             CreeperPersonalities.Bleeh,
             CreeperAnswers("allow :3", "deny ::(", "GAMBLING!! :D"),
             CreeperTooltips("i will explode!", "i will go away :((", "YAY I LOVE GAMBLING!!")),

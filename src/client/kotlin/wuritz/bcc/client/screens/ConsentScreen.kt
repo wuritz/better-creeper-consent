@@ -48,7 +48,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
             .bounds(allowButtonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)
             .tooltip(Tooltip.create(Component.literal(
                 creeper.tooltips.allow
-            )))
+            ).withStyle(ChatFormatting.GREEN)))
             .build())
 
         /**
@@ -58,7 +58,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
             .bounds(denyButtonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)
             .tooltip(Tooltip.create(Component.literal(
                 creeper.tooltips.deny
-            )))
+            ).withStyle(ChatFormatting.RED)))
             .build())
 
         /**
