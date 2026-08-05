@@ -23,7 +23,6 @@
     </a>
     <!-- Fabric API  -->
     <img alt="fabric-api" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/requires/fabric-api_vector.svg">
-    <br>
     <!-- Ko-fi  -->
     <a href="https://ko-fi.com/wuritz">
         <img alt="kofi-singular-alt" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/kofi-singular-alt_vector.svg">
