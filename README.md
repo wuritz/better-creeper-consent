@@ -1,3 +1,7 @@
+<!------------>
+<!-- Start  -->
+<!------------>
+
 <h1 align="center">Better Creeper Consent</h1>
 
 <p align="center">Allow or deny every creeper explosion that happens around you!</p>
@@ -7,6 +11,7 @@
 </div>
 
 <!-- Badges  -->
+
 <div align="center">
     <!-- Curse  -->
     <a href="https://www.curseforge.com/minecraft/mc-mods/better-creeper-consent">
@@ -25,8 +30,14 @@
     </a>
 </div>
 
+<div align="center">
 Ever had creepers walk behind your back and destroy your buildings? <br>
-This mod gives you the power to simply click `Deny` when creepers want to explode!
+This mod gives you the power to simply click <strong>Deny</strong> when creepers want to explode!
+</div>
+
+<!----------->
+<!-- Rest  -->
+<!----------->
 
 <h2 align="center">❗ Requirements ❗</h2>
 
@@ -45,10 +56,12 @@ This mod gives you the power to simply click `Deny` when creepers want to explod
 - You can either `Allow` or `Deny` the request, or you can `Gamble` to let it be chosen randomly
 
 > [!NOTE]
-> - If there are multiple creepers around, only **1 gets to ask for consent**, while the other ones are _automatically denied and won't explode_. 
+>
+> - If there are multiple creepers around, only **1 gets to ask for consent**, while the other ones are _automatically denied and won't explode_.
 > - While playing on multiplayer, note that **one creeper** sends a consent request to **one player** ONLY, and that's *the nearest player to the creeper*.
 
 ### Gambling ✨
+
 If you wanna test your luck, you can press the `Gambling` button.
 The gambling part is simple: if you roll `Allowed` - you explode, but if you roll `Denied` - you get a *random item*!
 
@@ -77,11 +90,11 @@ The gambling part is simple: if you roll `Allowed` - you explode, but if you rol
 </details>
 
 ### Prizes
-There are 3 categories of prizes you can get: Common, Rare and Legendary. 
+There are 3 categories of prizes you can get: Common, Rare and Legendary.
 You can win various creeper-related items:
 
 | Rarity       | Items                                         |
-|--------------|-----------------------------------------------|
+| ------------ | --------------------------------------------- |
 | 🟩 Common    | Gunpowder, String, Dirt, Cobblestone, Oak Log |
 | 🟦 Rare      | Raw Cod, TNT                                  |
 | 🟨 Legendary | Creeper Head, Diamond, Golden Apple           |
