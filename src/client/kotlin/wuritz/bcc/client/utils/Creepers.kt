@@ -17,7 +17,7 @@ class Creepers {
         Creeper("creepers/crp_normal.png",
             CreeperPersonalities.Normal,
             CreeperAnswers("Allow", "Deny", "Roll!"),
-            CreeperTooltips("The creeper explodes.", "No explosion.", "Roll the outcome.")),
+            CreeperTooltips("The creeper explodes", "No explosion", "Roll the outcome")),
 
         Creeper("creepers/crp_official.png",
             CreeperPersonalities.Official,
@@ -31,8 +31,8 @@ class Creepers {
 
         Creeper("creepers/crp_king.png",
             CreeperPersonalities.King,
-            CreeperAnswers("Allow!", "Deny!", "Gambling!"),
-            CreeperTooltips("Allow thy king to fulfill his explosive mission", "Refuse to yield the way to thy king", "Leave thy king's passage to the unpredictable whims of chance"))
+            CreeperAnswers("Allow!", "Deny!", "Gamble!"),
+            CreeperTooltips("Allow thy king to fulfill his explosive mission", "Refuse to have thy king explode", "Leave thy king's explosion to the unpredictable whims of chance"))
     )
 
     fun getRandomCreeper() : Creeper {
