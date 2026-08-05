@@ -38,11 +38,14 @@ This mod gives you the power to simply click `Deny` when creepers want to explod
 - [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin) - *(a version that supports MC 26.2)*
 
 ## Features
+
+### Core Features
+
 - Before a creeper explodes, a *screen pops up*, giving you 3 buttons to choose from.
 - You can either `Allow` or `Deny` the request, or you can `Gamble` to let it be chosen randomly
 
 <details>
-    <summary>Bonus feature!</summary>
+    <summary>Bonus!</summary>
     When the creeper is denied:
     <br>
     <img src="assets/denymsg.png" alt="Deny message">
@@ -56,7 +59,7 @@ This mod gives you the power to simply click `Deny` when creepers want to explod
 > - If there are multiple creepers around, only **1 gets to ask for consent**, while the other ones are _automatically denied and won't explode_. 
 > - While playing on multiplayer, note that **one creeper** sends a consent request to **one player** ONLY, and that's *the nearest player to the creeper*.
 
-## Gambling ✨
+### Gambling ✨
 If you wanna test your luck, you can press the `Gambling` button.
 The gambling part is simple: if you roll `Allowed` - you explode, but if you roll `Denied` - you get a *random item*!
 
