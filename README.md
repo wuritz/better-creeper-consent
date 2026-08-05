@@ -29,6 +29,8 @@
     </a>
 </div>
 
+<br>
+
 <div align="center">
 Ever had creepers walk behind your back and destroy your buildings? <br>
 This mod gives you the power to simply click <strong>Deny</strong> when creepers want to explode!
