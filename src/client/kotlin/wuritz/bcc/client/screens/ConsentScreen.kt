@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.ImageWidget
+import net.minecraft.client.gui.components.StringWidget
 import net.minecraft.client.gui.components.Tooltip
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
@@ -37,6 +38,10 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
         val allowButtonX = getAllowButtonX()
         val denyButtonX = getDenyButtonX()
         val gamblingButtonX = getGamblingButtonX()
+
+        addRenderableWidget(StringWidget(Component.literal("A creeper is asking for permission!"), Minecraft.getInstance().font))
+            .setPosition(width / 2 - Minecraft.getInstance().font.width("A creeper is asking for permission!") / 2,
+                height / 8)
 
         addRenderableWidget(ImageWidget.texture(250, 250, creeperVisual, 250, 250))
             .setPosition(getPictureX(), getPictureY())
