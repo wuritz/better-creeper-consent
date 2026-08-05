@@ -38,7 +38,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
         val denyButtonX = getDenyButtonX()
         val gamblingButtonX = getGamblingButtonX()
 
-        addRenderableWidget(ImageWidget.texture(200, 200, creeperVisual, 200, 200))
+        addRenderableWidget(ImageWidget.texture(250, 250, creeperVisual, 250, 250))
             .setPosition(getPictureX(), getPictureY())
 
         /**
@@ -76,21 +76,24 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
      * Render
      */
     override fun extractRenderState(graphics: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, a: Float) {
+        //graphics.fill(width / 2 - 2, height, width / 2 + 2, 0, Color(26, 125, 74, 255).rgb)
+        //graphics.fill(0, height / 2 - 2, width, height / 2 + 2, Color(26, 125, 74, 255).rgb)
+
         // Background
         graphics.fill(0, 0, width, height, 0xAA050A05.toInt())
-        /*
+
         // Another background
-        graphics.fill(
+        /*graphics.fill(
             getPictureX() - 25,
             getPictureY() - 25,
-            getDenyButtonX() + BUTTON_WIDTH + 25,
-            getPictureY() + 225,
+            getDenyButtonX() + BUTTON_WIDTH + 45,
+            getPictureY() + 300,
             Color(45, 61, 43, 180).rgb)
         graphics.fill(
             getPictureX() - 20,
             getPictureY() - 20,
-            getDenyButtonX() + BUTTON_WIDTH + 20,
-            getPictureY() + 220,
+            getDenyButtonX() + BUTTON_WIDTH + 40,
+            getPictureY() + 295,
             Color(17, 23, 16, 180).rgb)*/
 
         graphics.fill(getAllowButtonX() - 2, getButtonY() - 2,
@@ -140,12 +143,12 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
 
     private fun getButtonY() : Int {
         val boxY = height / 2 - BOX_HEIGHT / 2 - 10
-        return boxY + 50
+        return boxY + 45
     }
 
     private fun getAllowButtonX(): Int {
         val totalButtonWidth = BUTTON_WIDTH * 2 + BUTTON_GAP
-        return width / 2 - totalButtonWidth / 2 + 110
+        return width / 2 - totalButtonWidth / 2 + 95
     }
 
     private fun getDenyButtonX(): Int {
@@ -161,11 +164,11 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
     }
 
     private fun getPictureX() : Int {
-        return width / 2 - 200
+        return width / 2 - 235
     }
 
     private fun getPictureY() : Int {
-        return height / 2 - 100
+        return height / 2 - 140
     }
 
     /**
