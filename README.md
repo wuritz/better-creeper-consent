@@ -6,6 +6,8 @@
 
 <p align="center">Allow or deny every creeper explosion that happens around you!</p>
 
+---
+
 <div align="center">
     <img src="assets/screen1.png" alt="screen1">
 </div>
@@ -29,7 +31,7 @@
     </a>
 </div>
 
-<br>
+---
 
 <div align="center">
     Ever had creepers walk behind your back and destroy your buildings? <br>
