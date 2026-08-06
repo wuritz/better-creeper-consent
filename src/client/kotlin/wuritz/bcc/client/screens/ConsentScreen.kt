@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 import wuritz.bcc.client.utils.CreeperPersonalities
 import wuritz.bcc.client.utils.Creepers
+import wuritz.bcc.client.utils.RenderUtils
 import wuritz.bcc.network.payloads.ResponsePayload
 import java.awt.Color
 
@@ -31,17 +32,15 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
 
     var allowedToClose = false
 
-    val totalButtonWidth = BUTTON_WIDTH * 2 + BUTTON_GAP
+    val totalButtonWidth = 150
 
     override fun init() {
-        val buttonY = getButtonY()
-        val allowButtonX = getAllowButtonX()
-        val denyButtonX = getDenyButtonX()
-        val gamblingButtonX = getGamblingButtonX()
-
-        addRenderableWidget(StringWidget(Component.literal("A creeper is asking for permission!"), Minecraft.getInstance().font))
-            .setPosition(width / 2 - Minecraft.getInstance().font.width("A creeper is asking for permission!") / 2,
+        addRenderableWidget(StringWidget(Component.literal("A creeper is asking for permission to explode."), Minecraft.getInstance().font))
+            .setPosition(width / 2 - RenderUtils.getTextWidth("A creeper is asking for permission to explode.") / 2,
                 height / 8)
+        addRenderableWidget(StringWidget(Component.literal("Make your decision!"), Minecraft.getInstance().font))
+            .setPosition(width / 2 - RenderUtils.getTextWidth("Make your decision!") / 2,
+                height / 8 + Minecraft.getInstance().font.lineHeight + 5)
 
         addRenderableWidget(ImageWidget.texture(250, 250, creeperVisual, 250, 250))
             .setPosition(getPictureX(), getPictureY())
@@ -50,7 +49,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
          * Allow
          */
         addRenderableWidget(Button.builder(Component.literal(creeper.answers.allow)) { b -> pressedAllow() }
-            .bounds(allowButtonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)
+            .bounds(getButtonX(), getAllowButtonY(), totalButtonWidth, BUTTON_HEIGHT)
             .tooltip(Tooltip.create(Component.literal(
                 creeper.tooltips.allow
             ).withStyle(ChatFormatting.GREEN)))
@@ -60,7 +59,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
          * Deny
          */
         addRenderableWidget(Button.builder(Component.literal(creeper.answers.deny)) { b -> pressedDeny() }
-            .bounds(denyButtonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT)
+            .bounds(getButtonX(), getDenyButtonY(), totalButtonWidth, BUTTON_HEIGHT)
             .tooltip(Tooltip.create(Component.literal(
                 creeper.tooltips.deny
             ).withStyle(ChatFormatting.RED)))
@@ -70,7 +69,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
          * Gambling
          */
         addRenderableWidget(Button.builder(Component.literal(creeper.answers.gambling)) { b -> pressedGambling() }
-            .bounds(gamblingButtonX, getGamblingButtonY(), totalButtonWidth, BUTTON_HEIGHT)
+            .bounds(getButtonX(), getGamblingButtonY(), totalButtonWidth, BUTTON_HEIGHT)
             .tooltip(Tooltip.create(Component.literal(
                 creeper.tooltips.gambling
             ).withStyle(ChatFormatting.YELLOW)))
@@ -101,16 +100,20 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
             getPictureY() + 295,
             Color(17, 23, 16, 180).rgb)*/
 
-        graphics.fill(getAllowButtonX() - 2, getButtonY() - 2,
-            getAllowButtonX() + BUTTON_WIDTH + 2, getButtonY() + 2 + BUTTON_HEIGHT,
+        // Middle separator
+        graphics.fill(width / 2 - 1, height / 4, width / 2 + 1, (height * 0.75).toInt(), Color(100, 100, 100, 255).rgb)
+
+        // Button auras
+        graphics.fill(getButtonX() - 2, getAllowButtonY() - 2,
+            getButtonX() + totalButtonWidth + 2, getAllowButtonY() + 2 + BUTTON_HEIGHT,
             Color(87, 255, 92, 200).rgb)
 
-        graphics.fill(getDenyButtonX() - 2, getButtonY() - 2,
-            getDenyButtonX() + BUTTON_WIDTH + 2, getButtonY() + 2 + BUTTON_HEIGHT,
+        graphics.fill(getButtonX() - 2, getDenyButtonY() - 2,
+            getButtonX() + totalButtonWidth + 2, getDenyButtonY() + 2 + BUTTON_HEIGHT,
             Color(255, 110, 110, 200).rgb)
 
-        graphics.fill(getGamblingButtonX() - 2, getGamblingButtonY() - 2,
-            getGamblingButtonX() + totalButtonWidth + 2, getGamblingButtonY() + BUTTON_HEIGHT + 2,
+        graphics.fill(getButtonX() - 2, getGamblingButtonY() - 2,
+            getButtonX() + totalButtonWidth + 2, getGamblingButtonY() + BUTTON_HEIGHT + 2,
             Color(244, 255, 110, 200).rgb)
 
         super.extractRenderState(graphics, mouseX, mouseY, a)
@@ -146,30 +149,25 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
      * Position helpers
      */
 
-    private fun getButtonY() : Int {
-        val boxY = height / 2 - BOX_HEIGHT / 2 - 10
-        return boxY + 45
+    private fun getButtonX() : Int {
+        return width / 2 + 70
     }
 
-    private fun getAllowButtonX(): Int {
-        val totalButtonWidth = BUTTON_WIDTH * 2 + BUTTON_GAP
-        return width / 2 - totalButtonWidth / 2 + 95
+    private fun getAllowButtonY() : Int {
+        val boxY = height / 2 - BOX_HEIGHT / 2 - 50
+        return boxY
     }
 
-    private fun getDenyButtonX(): Int {
-        return getAllowButtonX() + BUTTON_WIDTH + BUTTON_GAP
-    }
-
-    private fun getGamblingButtonX() : Int {
-        return getAllowButtonX()
+    private fun getDenyButtonY() : Int {
+        return getAllowButtonY() + BUTTON_HEIGHT + 10
     }
 
     private fun getGamblingButtonY() : Int {
-        return getButtonY() + BUTTON_HEIGHT + 10
+        return (height * 0.75 - 40).toInt()
     }
 
     private fun getPictureX() : Int {
-        return width / 2 - 235
+        return width / 2 - 255
     }
 
     private fun getPictureY() : Int {

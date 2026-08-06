@@ -19,4 +19,8 @@ object RenderUtils {
         matrices.popMatrix()
     }
 
+    fun getTextWidth(text: String): Int {
+        return Minecraft.getInstance().font.width(text)
+    }
+
 }
