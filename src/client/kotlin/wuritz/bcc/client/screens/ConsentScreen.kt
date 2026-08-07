@@ -4,8 +4,10 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphicsExtractor
+import net.minecraft.client.gui.components.AbstractStringWidget
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.ImageWidget
+import net.minecraft.client.gui.components.MultiLineTextWidget
 import net.minecraft.client.gui.components.StringWidget
 import net.minecraft.client.gui.components.Tooltip
 import net.minecraft.client.gui.screens.Screen
@@ -23,13 +25,10 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
     val signId = BetterCreeperConsent.id("others/sign.png")
 
     // box
-    val BOX_WIDTH = 230
     val BOX_HEIGHT = 120
 
     // button
-    val BUTTON_WIDTH = 85
     val BUTTON_HEIGHT = 20
-    val BUTTON_GAP = 12
 
     var allowedToClose = false
 
@@ -52,10 +51,16 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
         addRenderableWidget(ImageWidget.texture(200, 200, creeperVisual, 200, 200))
             .setPosition(getPictureX(), getPictureY())
 
+        val signY = (height * 0.75 - 70).toInt()
         addRenderableWidget(ImageWidget.texture(100, 50, signId, 100, 50))
-            .setPosition(getPictureX() + 50, (height * 0.75 - 73).toInt())
-        addRenderableWidget(StringWidget(Component.literal("Helobelo :3"), Minecraft.getInstance().font))
-            .setPosition(getPictureX() + 50 + 25, (height * 0.75 - 73 + 20).toInt())
+            .setPosition(getPictureX() + 50, signY)
+        val signWidget = MultiLineTextWidget(Component.literal(creeper.question), Minecraft.getInstance().font)
+        signWidget.setMaxWidth(90)
+                .setCentered(true)
+        val signWidgetWidth = signWidget.width
+        val signWidgetHeight = signWidget.height
+        signWidget.setPosition(getPictureX() + 100 - signWidgetWidth / 2, signY + 25 - signWidgetHeight / 2) // genius shit
+        addRenderableWidget(signWidget)
 
         /**
          * Buttons
@@ -177,7 +182,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
     }
 
     private fun getPictureX() : Int {
-        return width / 2 - 255
+        return width / 2 - 230
     }
 
     private fun getPictureY() : Int {

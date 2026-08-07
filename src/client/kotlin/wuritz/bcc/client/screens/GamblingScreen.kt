@@ -7,9 +7,7 @@ import net.minecraft.client.gui.components.ImageWidget
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
-import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
-import wuritz.bcc.BetterCreeperConsent
 import wuritz.bcc.client.utils.RenderUtils
 import wuritz.bcc.client.utils.timer.CacheTimer
 import wuritz.bcc.network.payloads.LuckyPayload
@@ -27,6 +25,7 @@ class GamblingScreen(val creeperId: Int, val creeperImage: Identifier) : Screen(
     val endTimer = CacheTimer()
     val overTimer = CacheTimer()
     val sliderTimer = CacheTimer()
+    val rollTextTimer = CacheTimer()
 
     val steps = listOf( // 50, 100, 250, 500
         Random.nextInt(30, 80),
@@ -42,7 +41,8 @@ class GamblingScreen(val creeperId: Int, val creeperImage: Identifier) : Screen(
     val mcFont = Minecraft.getInstance().font
 
     // Rolling
-    var rollingText = "Rolling..."
+    var rollingText = ""
+    var rtState = 0
     var rollingSliderPercentage = 1f
     val initR = 0 // Random.nextInt(0, 255)
     val initG = 255 // Random.nextInt(0, 255)
@@ -53,6 +53,7 @@ class GamblingScreen(val creeperId: Int, val creeperImage: Identifier) : Screen(
         rollTimer.reset()
         endTimer.reset()
         sliderTimer.reset()
+        rollTextTimer.reset()
 
         addRenderableWidget(ImageWidget.texture(200, 200, creeperImage, 200, 200)
         ).setPosition(getPictureX(), getPictureY())
@@ -70,26 +71,17 @@ class GamblingScreen(val creeperId: Int, val creeperImage: Identifier) : Screen(
         // Background
         graphics.fill(0, 0, width, height, 0xAA050A05.toInt())
 
-        /*
-        // Another background
-        graphics.fill(
-            getPictureX() - 25,
-            getPictureY() - 25,
-            getResultX() + 171 + 25,
-            getPictureY() + 225,
-            Color(45, 61, 43, 180).rgb)
-        graphics.fill(
-            getPictureX() - 20,
-            getPictureY() - 20,
-            getResultX() + 171 + 20,
-            getPictureY() + 220,
-            Color(17, 23, 16, 180).rgb)*/
+        // Middle separator
+        graphics.fill(width / 2 - 1, height / 4, width / 2 + 1, (height * 0.75).toInt(), Color(100, 100, 100, 255).rgb)
+
 
         if (!isOver) isRollOver()
         else shouldSendPacket()
 
         // Rolling text
         if (isOver) rollingText = "Your result is:"
+        else rollingText = updateRollingText()
+
         RenderUtils.renderScaledText(graphics, rollingText,
             getRollingX() - 5, getRollingY(), 10, Color.WHITE.rgb, 1.5f)
 
@@ -125,7 +117,7 @@ class GamblingScreen(val creeperId: Int, val creeperImage: Identifier) : Screen(
      */
 
     private fun getRollingX() : Int {
-        return width / 2 + 26
+        return width / 2 + 50
     }
 
     private fun getRollingY() : Int {
@@ -137,7 +129,7 @@ class GamblingScreen(val creeperId: Int, val creeperImage: Identifier) : Screen(
     }
 
     private fun getResultY() : Int {
-        return getRollingY() + mcFont.lineHeight * 4 - 8
+        return getRollingY() + mcFont.lineHeight * 4 - 10
     }
 
     private fun getSliderX() : Int {
@@ -163,6 +155,23 @@ class GamblingScreen(val creeperId: Int, val creeperImage: Identifier) : Screen(
     private fun getResultString() : String {
         return if (!isOver) getStateString()
         else if(state == State.ALLOW) "Allowed" else "Denied"
+    }
+
+    private fun updateRollingText() : String {
+        val output = StringBuilder()
+        output.append("Rolling")
+
+        if (rollTextTimer.passed(250)) {
+            rollTextTimer.reset()
+            rtState++
+            if (rtState > 3) rtState = 0
+        }
+
+        for (i in 0..<rtState) {
+            output.append(".")
+        }
+
+        return output.toString()
     }
 
     private fun isRollOver() {

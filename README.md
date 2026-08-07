@@ -105,16 +105,20 @@ You can win various creeper-related items:
 
 <h2 align="center">Installation</h2>
 <ol>
-    <li>Download the latest `.jar` file from here or from Modrinth</li>
-    <li>Locate your `mods/` folder</li>
-    <li>Put the BCC `.jar` file alongside with your Fabric API and Kotlin `.jar` files</li>
+    <li>Download the latest <code>.jar</code> file from here or from Modrinth</li>
+    <li>Locate your <code>mods/</code> folder</li>
+    <li>Put the BCC <code>.jar</code> file alongside with your Fabric API and Kotlin <code>.jar</code> files</li>
     <li>Have fun!</li>
 </ol>
 
 <h2 align="center">Credits</h2>
 <ul>
-    <li>Thank you to my *lovely girlfriend* for making the illustrations, including the logo and the creepers :33</li>
-    <li>[Creeper's Consent](https://github.com/GameMech007-git/Creeper-Consent) by GameMech007, giving the code foundation and the original idea for the mod</li>
+    <li>Thank you to my <strong>lovely girlfriend</strong> for making the illustrations, including the logo and the creepers :33</li>
+    <li>
+        <a href=["](https://github.com/GameMech007-git/Creeper-Consent)">
+            Creeper's Consent
+        </a> by GameMech007, giving the code foundation and the original idea for the mod
+    </li>
 </ul>
 
 ## License
