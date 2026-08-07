@@ -10,7 +10,7 @@ import net.minecraft.client.gui.components.StringWidget
 import net.minecraft.client.gui.components.Tooltip
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
-import wuritz.bcc.client.utils.CreeperPersonalities
+import wuritz.bcc.BetterCreeperConsent
 import wuritz.bcc.client.utils.Creepers
 import wuritz.bcc.client.utils.RenderUtils
 import wuritz.bcc.network.payloads.ResponsePayload
@@ -20,6 +20,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
 
     val creeper = Creepers().getRandomCreeper()
     val creeperVisual = Creepers().getImage(creeper.imagePath)
+    val signId = BetterCreeperConsent.id("others/sign.png")
 
     // box
     val BOX_WIDTH = 230
@@ -35,6 +36,9 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
     val totalButtonWidth = 150
 
     override fun init() {
+        /**
+         * Text
+         */
         addRenderableWidget(StringWidget(Component.literal("A creeper is asking for permission to explode."), Minecraft.getInstance().font))
             .setPosition(width / 2 - RenderUtils.getTextWidth("A creeper is asking for permission to explode.") / 2,
                 height / 8)
@@ -42,12 +46,22 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
             .setPosition(width / 2 - RenderUtils.getTextWidth("Make your decision!") / 2,
                 height / 8 + Minecraft.getInstance().font.lineHeight + 5)
 
-        addRenderableWidget(ImageWidget.texture(250, 250, creeperVisual, 250, 250))
+        /**
+         * Pictures
+         */
+        addRenderableWidget(ImageWidget.texture(200, 200, creeperVisual, 200, 200))
             .setPosition(getPictureX(), getPictureY())
 
+        addRenderableWidget(ImageWidget.texture(100, 50, signId, 100, 50))
+            .setPosition(getPictureX() + 50, (height * 0.75 - 73).toInt())
+        addRenderableWidget(StringWidget(Component.literal("Helobelo :3"), Minecraft.getInstance().font))
+            .setPosition(getPictureX() + 50 + 25, (height * 0.75 - 73 + 20).toInt())
+
         /**
-         * Allow
+         * Buttons
          */
+
+        // Allow
         addRenderableWidget(Button.builder(Component.literal(creeper.answers.allow)) { b -> pressedAllow() }
             .bounds(getButtonX(), getAllowButtonY(), totalButtonWidth, BUTTON_HEIGHT)
             .tooltip(Tooltip.create(Component.literal(
@@ -55,9 +69,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
             ).withStyle(ChatFormatting.GREEN)))
             .build())
 
-        /**
-         * Deny
-         */
+        // Deny
         addRenderableWidget(Button.builder(Component.literal(creeper.answers.deny)) { b -> pressedDeny() }
             .bounds(getButtonX(), getDenyButtonY(), totalButtonWidth, BUTTON_HEIGHT)
             .tooltip(Tooltip.create(Component.literal(
@@ -65,9 +77,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
             ).withStyle(ChatFormatting.RED)))
             .build())
 
-        /**
-         * Gambling
-         */
+        // Gambling
         addRenderableWidget(Button.builder(Component.literal(creeper.answers.gambling)) { b -> pressedGambling() }
             .bounds(getButtonX(), getGamblingButtonY(), totalButtonWidth, BUTTON_HEIGHT)
             .tooltip(Tooltip.create(Component.literal(

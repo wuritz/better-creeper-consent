@@ -104,14 +104,18 @@ You can win various creeper-related items:
 > There's also a 5% chance you get an **ignited TNT** in the place of the creeper, instead of getting an item drop.
 
 <h2 align="center">Installation</h2>
-1. Download the latest `.jar` file from here or from Modrinth
-2. Locate your `mods/` folder
-3. Put the BCC `.jar` file alongside with your Fabric API and Kotlin `.jar` files
-4. Have fun!
+<ol>
+    <li>Download the latest `.jar` file from here or from Modrinth</li>
+    <li>Locate your `mods/` folder</li>
+    <li>Put the BCC `.jar` file alongside with your Fabric API and Kotlin `.jar` files</li>
+    <li>Have fun!</li>
+</ol>
 
 <h2 align="center">Credits</h2>
-- Thank you to my *lovely girlfriend* for making the illustrations, including the logo and the creepers :33
-- [Creeper's Consent](https://github.com/GameMech007-git/Creeper-Consent) by GameMech007, giving the code foundation and the original idea for the mod
+<ul>
+    <li>Thank you to my *lovely girlfriend* for making the illustrations, including the logo and the creepers :33</li>
+    <li>[Creeper's Consent](https://github.com/GameMech007-git/Creeper-Consent) by GameMech007, giving the code foundation and the original idea for the mod</li>
+</ul>
 
 ## License
 MIT © wuritz
