@@ -9,7 +9,7 @@
 ---
 
 <div align="center">
-    <img src="assets/bcc-gif.gif" alt="screen1" width=700 height=388>
+    <img src="assets/bcc-gif.gif" alt="screen1" width=500>
 </div>
 
 <!-- Badges  -->
@@ -72,16 +72,9 @@ The gambling part is simple: if you roll `Allowed` - you explode, but if you rol
 
 ### Images
 
-<details>
-    <summary>Images of Gambling</summary>
-    <h3>Rolling</h3>
-    Upon pressing the `Gambling` button, this screen pops up and immediately starts rolling:
-    <img src="assets/rolling.png" alt="rolling">
-    <br>
-    <h3>Result</h3>
-    After 5 seconds, you'll get a result:
-    <img src="assets/result.png" alt="result">
-</details>
+<div align="center">
+    <img src="assets/bcc-gambling.gif" alt="gambling gif" width=500>
+</div>
 
 <details>
     <summary>Bonus!</summary>
