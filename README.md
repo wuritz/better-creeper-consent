@@ -20,7 +20,7 @@
         <img alt="curseforge" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg">
     </a>
     <!-- Modrinth  -->
-    <a href="https://www.curseforge.com/minecraft/mc-mods/better-creeper-consent">
+    <a href="https://modrinth.com/mod/better-creeper-consent">
         <img alt="modrinth" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg">
     </a>
     <!-- Fabric API  -->
