@@ -48,18 +48,18 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
         /**
          * Pictures
          */
-        addRenderableWidget(ImageWidget.texture(200, 200, creeperVisual, 200, 200))
+        addRenderableWidget(ImageWidget.texture(150, 150, creeperVisual, 150, 150))
             .setPosition(getPictureX(), getPictureY())
 
         val signY = (height * 0.75 - 70).toInt()
         addRenderableWidget(ImageWidget.texture(100, 50, signId, 100, 50))
-            .setPosition(getPictureX() + 50, signY)
+            .setPosition(getPictureX() + 30, signY)
         val signWidget = MultiLineTextWidget(Component.literal(creeper.question), Minecraft.getInstance().font)
         signWidget.setMaxWidth(90)
                 .setCentered(true)
         val signWidgetWidth = signWidget.width
         val signWidgetHeight = signWidget.height
-        signWidget.setPosition(getPictureX() + 100 - signWidgetWidth / 2, signY + 25 - signWidgetHeight / 2) // genius shit
+        signWidget.setPosition(getPictureX() + 30 + 50 - signWidgetWidth / 2, signY + 25 - signWidgetHeight / 2) // genius shit
         addRenderableWidget(signWidget)
 
         /**
@@ -182,11 +182,11 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
     }
 
     private fun getPictureX() : Int {
-        return width / 2 - 230
+        return width / 2 - 190
     }
 
     private fun getPictureY() : Int {
-        return height / 2 - 140
+        return height / 2 - 100
     }
 
     /**

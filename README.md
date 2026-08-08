@@ -2,7 +2,9 @@
 <!-- Start  -->
 <!------------>
 
-<h1 align="center">Better Creeper Consent</h1>
+<div align="center">
+    <img src="assets/epiclogo.png" alt="logo">
+</div>
 
 <p align="center">Allow or deny every creeper explosion that happens around you!</p>
 
