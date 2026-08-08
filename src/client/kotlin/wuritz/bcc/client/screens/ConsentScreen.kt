@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphicsExtractor
-import net.minecraft.client.gui.components.AbstractStringWidget
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.ImageWidget
 import net.minecraft.client.gui.components.MultiLineTextWidget
@@ -14,7 +13,6 @@ import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 import wuritz.bcc.BetterCreeperConsent
 import wuritz.bcc.client.utils.Creepers
-import wuritz.bcc.client.utils.RenderUtils
 import wuritz.bcc.network.payloads.ResponsePayload
 import java.awt.Color
 
@@ -23,9 +21,6 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
     val creeper = Creepers().getRandomCreeper()
     val creeperVisual = Creepers().getImage(creeper.imagePath)
     val signId = BetterCreeperConsent.id("others/sign.png")
-
-    // box
-    val BOX_HEIGHT = 120
 
     // button
     val BUTTON_HEIGHT = 20
@@ -38,12 +33,12 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
         /**
          * Text
          */
-        addRenderableWidget(StringWidget(Component.literal("A creeper is asking for permission to explode."), Minecraft.getInstance().font))
-            .setPosition(width / 2 - RenderUtils.getTextWidth("A creeper is asking for permission to explode.") / 2,
-                height / 8)
+
+        addRenderableWidget(MultiLineTextWidget(Component.literal("A creeper is asking for permission to explode."), Minecraft.getInstance().font))
+            .setMaxWidth(130)
+            .setPosition(getButtonX(), getAllowButtonY() - 55)
         addRenderableWidget(StringWidget(Component.literal("Make your decision!"), Minecraft.getInstance().font))
-            .setPosition(width / 2 - RenderUtils.getTextWidth("Make your decision!") / 2,
-                height / 8 + Minecraft.getInstance().font.lineHeight + 5)
+            .setPosition(getButtonX(), getAllowButtonY() - 25)
 
         /**
          * Pictures
@@ -52,15 +47,16 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
             .setPosition(getPictureX(), getPictureY())
 
         val signY = (height * 0.75 - 70).toInt()
+        val signX = getPictureX() + 25
         addRenderableWidget(ImageWidget.texture(100, 50, signId, 100, 50))
-            .setPosition(getPictureX() + 30, signY)
-        val signWidget = MultiLineTextWidget(Component.literal(creeper.question), Minecraft.getInstance().font)
-        signWidget.setMaxWidth(90)
+            .setPosition(signX, signY)
+        val signTextW = MultiLineTextWidget(Component.literal(creeper.question), Minecraft.getInstance().font)
+        signTextW.setMaxWidth(90)
                 .setCentered(true)
-        val signWidgetWidth = signWidget.width
-        val signWidgetHeight = signWidget.height
-        signWidget.setPosition(getPictureX() + 30 + 50 - signWidgetWidth / 2, signY + 25 - signWidgetHeight / 2) // genius shit
-        addRenderableWidget(signWidget)
+        val signWidgetWidth = signTextW.width
+        val signWidgetHeight = signTextW.height
+        signTextW.setPosition(signX + 50 - signWidgetWidth / 2, signY + 25 - signWidgetHeight / 2) // genius shit
+        addRenderableWidget(signTextW)
 
         /**
          * Buttons
@@ -165,11 +161,11 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
      */
 
     private fun getButtonX() : Int {
-        return width / 2 + 70
+        return width / 2 + 80
     }
 
     private fun getAllowButtonY() : Int {
-        val boxY = height / 2 - BUTTON_HEIGHT - 60
+        val boxY = height / 2 - BUTTON_HEIGHT
         return boxY
     }
 
@@ -178,8 +174,8 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
     }
 
     private fun getGamblingButtonY() : Int {
-        return (height * 0.75 - 40).toInt()
-        //return getDenyButtonY() + BUTTON_HEIGHT + 10
+        //return (height * 0.75 - 40).toInt()
+        return getDenyButtonY() + BUTTON_HEIGHT + 10
     }
 
     private fun getPictureX() : Int {

@@ -3,13 +3,13 @@
 <!------------>
 
 <div align="center">
-    <img src="assets/epiclogo.png" alt="logo">
+    <img src="assets/epiclogo.png" alt="logo" width=700 height=200>
 </div>
 
-<p align="center">Allow or deny every creeper explosion that happens around you!</p>
+---
 
 <div align="center">
-    <img src="assets/screen1.png" alt="screen1">
+    <img src="assets/bcc-gif.gif" alt="screen1" width=700 height=388>
 </div>
 
 <!-- Badges  -->
@@ -31,12 +31,14 @@
     </a>
 </div>
 
----
+<br>
 
 <div align="center">
     Ever had creepers walk behind your back and destroy your buildings? <br>
     This mod gives you the power to simply click <strong>Deny</strong> when creepers want to explode!
 </div>
+
+---
 
 <!----------->
 <!-- Rest  -->
