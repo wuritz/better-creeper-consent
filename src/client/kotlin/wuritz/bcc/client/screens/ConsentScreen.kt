@@ -39,8 +39,9 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
          * Text
          */
         addRenderableWidget(StringWidget(Component.literal("A creeper is asking for permission to explode."), Minecraft.getInstance().font))
-            .setPosition(width / 2 - RenderUtils.getTextWidth("A creeper is asking for permission to explode.") / 2,
-                height / 8)
+
+        //.setPosition(width / 2 - RenderUtils.getTextWidth("A creeper is asking for permission to explode.") / 2,
+                //height / 8)
         addRenderableWidget(StringWidget(Component.literal("Make your decision!"), Minecraft.getInstance().font))
             .setPosition(width / 2 - RenderUtils.getTextWidth("Make your decision!") / 2,
                 height / 8 + Minecraft.getInstance().font.lineHeight + 5)
@@ -169,7 +170,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
     }
 
     private fun getAllowButtonY() : Int {
-        val boxY = height / 2 - BOX_HEIGHT / 2 - 50
+        val boxY = height / 2 - BUTTON_HEIGHT - 10
         return boxY
     }
 
