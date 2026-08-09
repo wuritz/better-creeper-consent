@@ -3,13 +3,13 @@
 <!------------>
 
 <div align="center">
-    <img src="assets/epiclogo.png" alt="logo" width=700 height=200>
+    <img src="https://raw.githubusercontent.com/wuritz/readme-assets/refs/heads/main/better-creeper-consent/title.png" alt="logo" width=700 height=200>
 </div>
 
 ---
 
 <div align="center">
-    <img src="assets/bcc-gif.gif" alt="screen1" width=500>
+    <img src="https://raw.githubusercontent.com/wuritz/readme-assets/refs/heads/main/better-creeper-consent/gifs/bcc-gif.gif" alt="screen1" width=500>
 </div>
 
 <!-- Badges  -->
@@ -73,18 +73,18 @@ The gambling part is simple: if you roll `Allowed` - you explode, but if you rol
 ### Images
 
 <div align="center">
-    <img src="assets/bcc-gambling.gif" alt="gambling gif" width=500>
+    <img src="https://raw.githubusercontent.com/wuritz/readme-assets/refs/heads/main/better-creeper-consent/gifs/bcc-gambling.gif" alt="gambling gif" width=500>
 </div>
 
 <details>
     <summary>Bonus!</summary>
     When the creeper is denied:
     <br>
-    <img src="assets/denymsg.png" alt="Deny message">
+    <img src="https://raw.githubusercontent.com/wuritz/readme-assets/refs/heads/main/better-creeper-consent/msg/denymsg.png" alt="Deny message">
     <br>
     Or when you allow the explosion:
     <br>
-    <img src="assets/allowmsg.png" alt="Allow message">
+    <img src="https://raw.githubusercontent.com/wuritz/readme-assets/refs/heads/main/better-creeper-consent/msg/allowmsg.png" alt="Allow message">
 </details>
 
 ### Prizes
@@ -112,7 +112,7 @@ You can win various creeper-related items:
 <ul>
     <li>Thank you to my <strong>lovely girlfriend</strong> for making the illustrations, including the logo and the creepers :33</li>
     <li>
-        <a href=["](https://github.com/GameMech007-git/Creeper-Consent)">
+        <a href="https://github.com/GameMech007-git/Creeper-Consent">
             Creeper's Consent
         </a> by GameMech007, giving the code foundation and the original idea for the mod
     </li>
