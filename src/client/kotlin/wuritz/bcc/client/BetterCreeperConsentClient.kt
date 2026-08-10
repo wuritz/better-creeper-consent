@@ -24,6 +24,6 @@ object BetterCreeperConsentClient : ClientModInitializer {
 			}
         }
 
-		BetterCreeperConsent.LOG.info("[Init] Initialized on client-side!")
+		BetterCreeperConsent.LOG.info("[Init] Client-side initialized!")
     }
 }
