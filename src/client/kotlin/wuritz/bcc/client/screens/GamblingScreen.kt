@@ -16,7 +16,7 @@ import java.awt.Color
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
-class GamblingScreen(val creeperId: Int, val creeperImage: Identifier) : Screen(Component.literal("Consent Gambling")) {
+class GamblingScreen(val creeperId: Int, val creeperImage: Identifier, val creeperWidth: Int) : Screen(Component.literal("Consent Gambling")) {
 
     var state = State.ALLOW
 
@@ -55,7 +55,8 @@ class GamblingScreen(val creeperId: Int, val creeperImage: Identifier) : Screen(
         sliderTimer.reset()
         rollTextTimer.reset()
 
-        addRenderableWidget(ImageWidget.texture(200, 200, creeperImage, 200, 200)
+        val imageSize = calcImageSize()
+        addRenderableWidget(ImageWidget.texture(imageSize, imageSize, creeperImage, imageSize, imageSize)
         ).setPosition(getPictureX(), getPictureY())
 
         if (Random.nextInt() % 2 == 0) trigger = true
@@ -116,8 +117,12 @@ class GamblingScreen(val creeperId: Int, val creeperImage: Identifier) : Screen(
      * Position helpers
      */
 
+    private fun calcImageSize() : Int {
+        return creeperWidth
+    }
+
     private fun getRollingX() : Int {
-        return width / 2 + 50
+        return width / 2 + width / 16 + 2
     }
 
     private fun getRollingY() : Int {
@@ -141,11 +146,11 @@ class GamblingScreen(val creeperId: Int, val creeperImage: Identifier) : Screen(
     }
 
     private fun getPictureX() : Int {
-        return width / 2 - 200
+        return width / 2 - calcImageSize() - width / 16 + (calcImageSize() / 6)
     }
 
     private fun getPictureY() : Int {
-        return height / 2 - 100
+        return height / 2 - calcImageSize() / 2
     }
 
     /**

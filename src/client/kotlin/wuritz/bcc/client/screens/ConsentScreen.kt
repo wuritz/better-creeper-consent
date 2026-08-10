@@ -4,15 +4,10 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphicsExtractor
-import net.minecraft.client.gui.components.Button
-import net.minecraft.client.gui.components.ImageWidget
-import net.minecraft.client.gui.components.MultiLineTextWidget
-import net.minecraft.client.gui.components.StringWidget
-import net.minecraft.client.gui.components.Tooltip
+import net.minecraft.client.gui.components.*
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 import wuritz.bcc.BetterCreeperConsent
-import wuritz.bcc.client.screens.widget.ScalableMultiLineTextWidget
 import wuritz.bcc.client.utils.Creepers
 import wuritz.bcc.network.payloads.ResponsePayload
 import java.awt.Color
@@ -29,6 +24,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
     var allowedToClose = false
 
     val totalButtonWidth = 130
+    lateinit var allowButton: Button
 
     // Coordinates
 
@@ -38,7 +34,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
          */
 
         // Allow
-        val allowButton = Button.builder(Component.literal(creeper.answers.allow)) { b -> pressedAllow() }
+        allowButton = Button.builder(Component.literal(creeper.answers.allow)) { b -> pressedAllow() }
             .bounds(getButtonX(), getAllowButtonY(), totalButtonWidth, BUTTON_HEIGHT)
             .tooltip(Tooltip.create(Component.literal(
                 creeper.tooltips.allow
@@ -93,8 +89,8 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
 
         val guiScale = minecraft.window.guiScale
 
-        val signTextScale = width / 960f * guiScale / 2
-        val signTextW = ScalableMultiLineTextWidget(Component.literal(creeper.question), Minecraft.getInstance().font, signTextScale)
+        //val signTextScale = width / 960f * guiScale / 2
+        val signTextW = MultiLineTextWidget(Component.literal(creeper.question), Minecraft.getInstance().font)
 
         signTextW.setMaxWidth(90)
                 .setCentered(true)
@@ -167,7 +163,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
     fun pressedGambling() {
         allowedToClose = true
         onClose()
-        Minecraft.getInstance().setScreenAndShow(GamblingScreen(creeperId, creeperVisual))
+        Minecraft.getInstance().setScreenAndShow(GamblingScreen(creeperId, creeperVisual, allowButton.width))
     }
 
     override fun onClose() {
@@ -198,12 +194,12 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
     }
 
     private fun calcImageSize() : Int {
-        return width / 6
+        //return width / 6 * (minecraft.window.guiScale / 2)
+        return allowButton.width
     }
 
     private fun getPictureX() : Int {
-        val helo = width / 2 - calcImageSize()
-        return helo - ((width / 16) / minecraft.window.guiScale)
+        return width / 2 - calcImageSize() - width / 16 + (calcImageSize() / 6)
     }
 
     private fun getPictureY() : Int {
@@ -215,11 +211,11 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
     }
 
     private fun calcSignY() : Int {
-        return (height * 0.75 - 70).toInt()
+        return (height * 0.75 - height / 6).toInt()
     }
 
     private fun calcSignSize() : Int {
-        return width / 10 * minecraft.window.guiScale / 2
+        return (calcImageSize() * 0.8).toInt()
     }
 
     /**
