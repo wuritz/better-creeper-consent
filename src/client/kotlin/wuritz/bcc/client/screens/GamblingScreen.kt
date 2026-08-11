@@ -80,8 +80,8 @@ class GamblingScreen(val creeperId: Int, val creeperImage: Identifier, val creep
         else shouldSendPacket()
 
         // Rolling text
-        if (isOver) rollingText = "Your result is:"
-        else rollingText = updateRollingText()
+        rollingText = if (isOver) "Your result is:"
+        else updateRollingText()
 
         RenderUtils.renderScaledText(graphics, rollingText,
             getRollingX() - 5, getRollingY(), 10, Color.WHITE.rgb, 1.5f)

@@ -34,7 +34,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
          */
 
         // Allow
-        allowButton = Button.builder(Component.literal(creeper.answers.allow)) { b -> pressedAllow() }
+        allowButton = Button.builder(Component.literal(creeper.answers.allow)) { pressedAllow() }
             .bounds(getButtonX(), getAllowButtonY(), totalButtonWidth, BUTTON_HEIGHT)
             .tooltip(Tooltip.create(Component.literal(
                 creeper.tooltips.allow
@@ -44,7 +44,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
         addRenderableWidget(allowButton)
 
         // Deny
-        addRenderableWidget(Button.builder(Component.literal(creeper.answers.deny)) { b -> pressedDeny() }
+        addRenderableWidget(Button.builder(Component.literal(creeper.answers.deny)) { pressedDeny() }
             .bounds(getButtonX(), getDenyButtonY(), totalButtonWidth, BUTTON_HEIGHT)
             .tooltip(Tooltip.create(Component.literal(
                 creeper.tooltips.deny
@@ -52,7 +52,7 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
             .build())
 
         // Gambling
-        addRenderableWidget(Button.builder(Component.literal(creeper.answers.gambling)) { b -> pressedGambling() }
+        addRenderableWidget(Button.builder(Component.literal(creeper.answers.gambling)) { pressedGambling() }
             .bounds(getButtonX(), getGamblingButtonY(), totalButtonWidth, BUTTON_HEIGHT)
             .tooltip(Tooltip.create(Component.literal(
                 creeper.tooltips.gambling
@@ -86,8 +86,6 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
 
         addRenderableWidget(ImageWidget.texture(signW, signH, signId, signW, signH))
             .setPosition(signX, signY)
-
-        val guiScale = minecraft.window.guiScale
 
         //val signTextScale = width / 960f * guiScale / 2
         val signTextW = MultiLineTextWidget(Component.literal(creeper.question), Minecraft.getInstance().font)
