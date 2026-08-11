@@ -3,7 +3,8 @@
   "package": "wuritz.bcc.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "CreeperMixin"
+    "CreeperMixin",
+    "ServerPlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

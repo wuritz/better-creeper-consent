@@ -16,19 +16,19 @@ object OutgoingConnection {
         if (creeper.level() !is ServerLevel) return
         val level = creeper.level() as ServerLevel
 
-        if (!CreeperQueue.markPending(creeper.uuid)) return
-
         val explosion = AABB(creeper.blockPosition()).inflate(Utils.EXPLOSION_RADIUS.toDouble())
 
         val nearbyPlayers = level.getPlayers { player ->
             player.boundingBox.intersects(explosion)
         }
+        if (nearbyPlayers.isEmpty()) return
+        val nearestPlayer = nearbyPlayers[0]
 
-        if (nearbyPlayers.isEmpty()) return CreeperQueue.clearEntry(creeper.uuid)
+        if (!CreeperQueue.markPending(creeper.uuid, nearestPlayer.uuid)) return
 
         creeper.swellDir = -1
 
-        BetterCreeperConsent.LOG.info("Sending consent screen to {} for creeper {}", nearbyPlayers[0].name, creeper.uuid)
+        BetterCreeperConsent.LOG.info("Sending consent screen to {} for creeper {}", nearestPlayer.name, creeper.uuid)
         sendConsentScreen(nearbyPlayers[0], creeper)
     }
 

@@ -1,12 +1,11 @@
 package wuritz.bcc.client.screens.widget
 
-import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.MultiLineTextWidget
 import net.minecraft.network.chat.Component
-import java.awt.TextComponent
 
+// May need this later
 class ScalableMultiLineTextWidget(text: Component, mcFont: Font, val scale: Float) : MultiLineTextWidget(text, mcFont) {
 
     init {

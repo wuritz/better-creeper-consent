@@ -59,19 +59,19 @@ object IncomingConnection {
         val world = player.level()
         val creeper = world.getEntity(creeperId)
 
-        if (creeper !is Creeper) return BetterCreeperConsent.LOG.error("{} sent a consent to a non-creeper entity: id {}", player.name, creeperId)
+        if (creeper !is Creeper) return BetterCreeperConsent.LOG.error("{} sent a consent to a non-creeper entity: id {}", player.name.string, creeperId)
         val creeperUuid = creeper.uuid
 
         val distance = player.distanceTo(creeper)
         if (distance > Utils.EXPLOSION_RADIUS) {
-            BetterCreeperConsent.LOG.error("{} sent a response, but is now out of the creeper's (id {}) radius.", player.name, creeperId)
+            BetterCreeperConsent.LOG.error("{} sent a response, but is now out of the creeper's (id {}) radius.", player.name.string, creeperId)
             creeper.discard()
             CreeperQueue.clearEntry(creeperUuid)
             return
         }
 
         if (allowed) {
-            BetterCreeperConsent.LOG.info("{} allowed creeper id {} to explode", player.name, creeperId)
+            BetterCreeperConsent.LOG.info("{} allowed creeper id {} to explode", player.name.string, creeperId)
 
             CreeperQueue.approve(creeperUuid)
             creeper.swellDir = 1 // normal behaviour
@@ -79,7 +79,7 @@ object IncomingConnection {
 
             MessageSender.sendAllowMsg(player)
         } else {
-            BetterCreeperConsent.LOG.info("{} denied creeper id {}", player.name, creeperId)
+            BetterCreeperConsent.LOG.info("{} denied creeper id {}", player.name.string, creeperId)
 
             creeper.discard()
             CreeperQueue.clearEntry(creeperUuid)

@@ -20,7 +20,7 @@ object BetterCreeperConsentClient : ClientModInitializer {
 				BetterCreeperConsent.LOG.info("Received open screen packet for creeper {}", creeperId)
 
 				if (!context.client().gui.canInterruptScreen()) ClientPlayNetworking.send(ResponsePayload(creeperId, false, false))
-				else context.client().gui.setScreen(ConsentScreen(creeperId))
+				context.client().gui.setScreen(ConsentScreen(creeperId))
 			}
         }
 
