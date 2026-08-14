@@ -10,6 +10,7 @@ import wuritz.bcc.LuckyAction
 import wuritz.bcc.network.CreeperQueue
 import wuritz.bcc.network.payloads.LuckyPayload
 import wuritz.bcc.network.payloads.OpenConsentPayload
+import wuritz.bcc.network.payloads.OpenOptionsScreenPayload
 import wuritz.bcc.network.payloads.ResponsePayload
 import wuritz.bcc.utils.MessageSender
 import wuritz.bcc.utils.Utils
@@ -18,6 +19,7 @@ object IncomingConnection {
 
     fun init() {
         PayloadTypeRegistry.clientboundPlay().register(OpenConsentPayload.TYPE, OpenConsentPayload.CODEC)
+        PayloadTypeRegistry.clientboundPlay().register(OpenOptionsScreenPayload.TYPE, OpenOptionsScreenPayload.CODEC)
         PayloadTypeRegistry.serverboundPlay().register(ResponsePayload.TYPE, ResponsePayload.CODEC)
         PayloadTypeRegistry.serverboundPlay().register(LuckyPayload.TYPE, LuckyPayload.CODEC)
 

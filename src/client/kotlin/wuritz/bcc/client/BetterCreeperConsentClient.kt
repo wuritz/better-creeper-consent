@@ -4,7 +4,9 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import wuritz.bcc.BetterCreeperConsent
 import wuritz.bcc.client.screens.ConsentScreen
+import wuritz.bcc.client.screens.options.OptionsScreen
 import wuritz.bcc.network.payloads.OpenConsentPayload
+import wuritz.bcc.network.payloads.OpenOptionsScreenPayload
 import wuritz.bcc.network.payloads.ResponsePayload
 
 object BetterCreeperConsentClient : ClientModInitializer {
@@ -23,6 +25,16 @@ object BetterCreeperConsentClient : ClientModInitializer {
 				else context.client().gui.setScreen(ConsentScreen(creeperId))
 			}
         }
+
+		ClientPlayNetworking.registerGlobalReceiver(OpenOptionsScreenPayload.TYPE) { payload, context ->
+			val id = payload.id
+
+			context.client().execute {
+				if (context.client().player == null) return@execute
+
+				context.client().gui.setScreen(OptionsScreen(id))
+			}
+		}
 
 		BetterCreeperConsent.LOG.info("[Init] Client-side initialized!")
     }
