@@ -1,8 +1,12 @@
 package wuritz.bcc.network.connection
 
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
+import net.minecraft.core.BlockPos
+import net.minecraft.core.particles.ParticleOptions
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.monster.Creeper
 import wuritz.bcc.BetterCreeperConsent
@@ -85,6 +89,15 @@ object IncomingConnection {
 
             creeper.discard()
             CreeperQueue.clearEntry(creeperUuid)
+
+            val pos = creeper.position()
+            world.sendParticles(
+                ParticleTypes.POOF,
+                pos.x, pos.y + 1, pos.z,
+                10,
+                0.1, 0.1, 0.1,
+                0.02
+            )
 
             //if (playerInitialized) MessageSender.sendDenyMsg(player)
             MessageSender.sendDenyMsg(player)
