@@ -1,0 +1,13 @@
+{
+  "itemGroup.better_creeper_consent": "Example Mod Tab",
+  "block.better_creeper_consent.example_block": "Example Block",
+  "item.better_creeper_consent.example_item": "Example Item",
+
+  "better_creeper_consent.configuration.title": "Better Creeper Consent Configs",
+  "better_creeper_consent.configuration.section.better_creeper_consent.common.toml": "Better Creeper Consent Configs",
+  "better_creeper_consent.configuration.section.better_creeper_consent.common.toml.title": "Better Creeper Consent Configs",
+  "better_creeper_consent.configuration.items": "Item List",
+  "better_creeper_consent.configuration.logDirtBlock": "Log Dirt Block",
+  "better_creeper_consent.configuration.magicNumberIntroduction": "Magic Number Text",
+  "better_creeper_consent.configuration.magicNumber": "Magic Number"
+}
