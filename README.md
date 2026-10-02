@@ -128,4 +128,4 @@ You can win various creeper-related items:
 </ul>
 
 ## License
-MIT © wuritz
+Apache 2.0 © wuritz
