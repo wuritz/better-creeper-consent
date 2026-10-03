@@ -25,7 +25,7 @@ object OutgoingConnection {
 
         creeper.swellDir = -1
 
-        Constants.LOG.info("Sending consent screen to {} for creeper {}", nearestPlayer.name, creeper.uuid)
+        //Constants.LOG.info("Sending consent screen to {} for creeper {}", nearestPlayer.name, creeper.uuid)
         sendConsentScreen(nearbyPlayers[0], creeper)
     }
 
@@ -33,7 +33,7 @@ object OutgoingConnection {
         creeper.swellDir = -1
 
         Services.SEND_CONSENT_SCREEN.sendConsentScreen(player, creeper)
-        Constants.LOG.info("Sent consent screen to {} for creeper {} at {}", player.name, creeper.id, player.blockPosition())
+        //Constants.LOG.info("Sent consent screen to {} for creeper {} at {}", player.name, creeper.id, player.blockPosition())
     }
 
 }
