@@ -1,4 +1,4 @@
-package wuritz.bcc.network
+package wuritz.bcc.network.services
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload

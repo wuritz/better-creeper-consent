@@ -1,52 +1,16 @@
-package wuritz.bcc.connection
+package wuritz.bcc.network.handling
 
-import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.monster.Creeper
-import wuritz.bcc.utils.LuckyAction
 import wuritz.bcc.network.CreeperQueue
-import wuritz.bcc.network.payloads.incoming.LuckyPayload
-import wuritz.bcc.network.payloads.outgoing.OpenConsentPayload
-import wuritz.bcc.network.payloads.outgoing.OpenOptionsScreenPayload
-import wuritz.bcc.network.payloads.incoming.ResponsePayload
 import wuritz.bcc.utils.Constants
+import wuritz.bcc.utils.LuckyAction
 import wuritz.bcc.utils.MessageSender
 
-object IncomingConnectionF {
+object ClientPayloadHandler {
 
-    fun init() {
-        PayloadTypeRegistry.clientboundPlay().register(OpenConsentPayload.TYPE, OpenConsentPayload.CODEC)
-        PayloadTypeRegistry.clientboundPlay().register(OpenOptionsScreenPayload.TYPE, OpenOptionsScreenPayload.CODEC)
-        PayloadTypeRegistry.serverboundPlay().register(ResponsePayload.TYPE, ResponsePayload.CODEC)
-        PayloadTypeRegistry.serverboundPlay().register(LuckyPayload.TYPE, LuckyPayload.CODEC)
-
-        ServerPlayNetworking.registerGlobalReceiver(
-            ResponsePayload.TYPE
-        ) { payload, context ->
-            val player = context.player()
-
-            context.server().execute { handleResponse(player, payload.creeperId, payload.allowed, payload.playerInitialized) }
-        }
-
-        ServerPlayNetworking.registerGlobalReceiver(
-            LuckyPayload.TYPE
-        ) { payload, context ->
-            val player = context.player()
-
-            context.server().execute { handleLucky(player, payload.creeperId) }
-        }
-
-        ServerLivingEntityEvents.AFTER_DEATH.register { entity, _ ->
-            if (entity is Creeper) {
-                CreeperQueue.clearEntry(entity.uuid)
-            }
-        }
-    }
-
-    private fun handleLucky(player: ServerPlayer, creeperId: Int) {
+    fun handleLucky(player: ServerPlayer, creeperId: Int) {
         val world = player.level()
 
         val creeper = world.getEntity(creeperId)
@@ -57,7 +21,7 @@ object IncomingConnectionF {
         lucky.run()
     }
 
-    private fun handleResponse(player: ServerPlayer, creeperId: Int, allowed: Boolean, playerInitialized: Boolean) {
+    fun handleResponse(player: ServerPlayer, creeperId: Int, allowed: Boolean, playerInitialized: Boolean) {
         val world = player.level()
         val creeper = world.getEntity(creeperId)
 

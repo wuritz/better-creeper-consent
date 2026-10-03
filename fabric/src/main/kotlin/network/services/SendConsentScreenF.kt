@@ -1,4 +1,4 @@
-package wuritz.bcc.network
+package wuritz.bcc.network.services
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.server.level.ServerPlayer

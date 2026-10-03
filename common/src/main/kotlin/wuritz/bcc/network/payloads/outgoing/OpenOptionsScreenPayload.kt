@@ -7,6 +7,10 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.resources.Identifier
 import wuritz.bcc.utils.Constants
 
+/**
+ * TODO: implement options screen
+ * The options screen is a big idea for the future
+ */
 @JvmRecord
 data class OpenOptionsScreenPayload(val id: Int) : CustomPacketPayload {
 

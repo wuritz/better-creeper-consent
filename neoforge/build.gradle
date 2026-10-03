@@ -43,6 +43,8 @@ neoForge {
         }
         client {
             client()
+            systemProperty 'terminal.ansi', 'true'
+            systemProperty 'terminal.jline', 'true'
             gameDirectory = this.mkdir(this.file('runs/client'))
         }
         data {
@@ -56,6 +58,8 @@ neoForge {
             server()
             this.file('runs/server').createParentDirectories()
             gameDirectory = this.mkdir(this.file('runs/server'))
+            systemProperty 'terminal.ansi', 'true'
+            systemProperty 'terminal.jline', 'true'
         }
     }
     mods {

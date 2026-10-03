@@ -8,7 +8,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.permissions.Permissions
-import wuritz.bcc.connection.IncomingConnectionF
+import wuritz.bcc.network.IncomingConnectionF
 import wuritz.bcc.network.payloads.outgoing.OpenOptionsScreenPayload
 import wuritz.bcc.utils.Constants
 import kotlin.random.Random
@@ -20,7 +20,8 @@ object BCCFabric : ModInitializer {
 		Constants.LOG.info("Initializing on server-side...")
 
 		IncomingConnectionF.init()
-		CommandRegistrationCallback.EVENT.register { dispatcher, registryAccess, selection ->
+		//TODO: command for options screen
+		/*CommandRegistrationCallback.EVENT.register { dispatcher, registryAccess, selection ->
 			dispatcher.register(Commands.literal("bcc-options").executes { context ->
 				// Admin only
 				val sPlayer = context.source.player
@@ -34,7 +35,7 @@ object BCCFabric : ModInitializer {
 				ServerPlayNetworking.send(sPlayer, OpenOptionsScreenPayload(Random.nextInt()))
 				return@executes 1
 			})
-		}
+		}*/
 
 		Constants.LOG.info("Server-side initialized!")
 	}
