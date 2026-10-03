@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2026. wuritz
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package wuritz.bcc.platform;
 
 import wuritz.bcc.platform.interfaces.SendConsentScreen

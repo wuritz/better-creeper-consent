@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2026. wuritz
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package wuritz.bcc.network
 
 import java.util.UUID

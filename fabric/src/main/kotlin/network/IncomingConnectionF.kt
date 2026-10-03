@@ -1,19 +1,19 @@
+/*
+ * Copyright (c) 2026. wuritz
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package wuritz.bcc.network
 
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
-import net.minecraft.core.particles.ParticleTypes
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.monster.Creeper
 import wuritz.bcc.network.handling.ClientPayloadHandler
-import wuritz.bcc.utils.LuckyAction
 import wuritz.bcc.network.payloads.incoming.LuckyPayload
+import wuritz.bcc.network.payloads.incoming.ResponsePayload
 import wuritz.bcc.network.payloads.outgoing.OpenConsentPayload
 import wuritz.bcc.network.payloads.outgoing.OpenOptionsScreenPayload
-import wuritz.bcc.network.payloads.incoming.ResponsePayload
-import wuritz.bcc.utils.Constants
-import wuritz.bcc.utils.MessageSender
 
 object IncomingConnectionF {
 

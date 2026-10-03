@@ -1,17 +1,14 @@
+/*
+ * Copyright (c) 2026. wuritz
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package wuritz.bcc
 
 import net.fabricmc.api.ModInitializer
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
-import net.minecraft.commands.Commands
-import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.server.permissions.Permissions
 import wuritz.bcc.network.IncomingConnectionF
-import wuritz.bcc.network.payloads.outgoing.OpenOptionsScreenPayload
 import wuritz.bcc.utils.Constants
-import kotlin.random.Random
 
 object BCCFabric : ModInitializer {
 

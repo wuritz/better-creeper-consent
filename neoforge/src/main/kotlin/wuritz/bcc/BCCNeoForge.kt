@@ -1,8 +1,12 @@
+/*
+ * Copyright (c) 2026. wuritz
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package wuritz.bcc
 
 import net.neoforged.bus.api.IEventBus
 import net.neoforged.fml.common.Mod
-import org.apache.logging.log4j.core.appender.ConsoleAppender
 import wuritz.bcc.network.IncomingConnectionNF
 import wuritz.bcc.utils.Constants
 

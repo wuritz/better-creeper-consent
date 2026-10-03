@@ -1,11 +1,16 @@
+/*
+ * Copyright (c) 2026. wuritz
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package wuritz.bcc
 
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
-import wuritz.bcc.screens.ConsentScreen
 import wuritz.bcc.network.payloads.incoming.ResponsePayload
 import wuritz.bcc.network.payloads.outgoing.OpenConsentPayload
 import wuritz.bcc.network.payloads.outgoing.OpenOptionsScreenPayload
+import wuritz.bcc.screens.ConsentScreen
 import wuritz.bcc.utils.Constants
 
 object BCCFabricClient : ClientModInitializer {

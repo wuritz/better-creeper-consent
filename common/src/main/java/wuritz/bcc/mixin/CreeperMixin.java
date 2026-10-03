@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2026. wuritz
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package wuritz.bcc.mixin;
 
 import net.minecraft.world.entity.monster.Creeper;
@@ -7,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import wuritz.bcc.network.CreeperQueue;
 import wuritz.bcc.network.OutgoingConnection;
-import wuritz.bcc.utils.Constants;
 
 @Mixin(Creeper.class)
 public abstract class CreeperMixin {

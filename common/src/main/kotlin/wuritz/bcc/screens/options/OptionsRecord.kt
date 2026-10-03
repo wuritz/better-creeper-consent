@@ -1,4 +1,9 @@
-package wuritz.bcc.client.screens.options
+/*
+ * Copyright (c) 2026. wuritz
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package wuritz.bcc.screens.options
 
 import wuritz.bcc.utils.CreeperPersonalities
 

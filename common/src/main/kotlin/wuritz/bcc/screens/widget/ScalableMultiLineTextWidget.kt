@@ -1,4 +1,9 @@
-package wuritz.bcc.client.screens.widget
+/*
+ * Copyright (c) 2026. wuritz
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package wuritz.bcc.screens.widget
 
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.GuiGraphicsExtractor

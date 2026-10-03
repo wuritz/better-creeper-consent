@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2026. wuritz
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package wuritz.bcc.utils;
 
 import org.slf4j.Logger;

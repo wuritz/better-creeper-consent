@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2026. wuritz
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package wuritz.bcc.screens
 
 import net.minecraft.client.Minecraft
@@ -8,7 +13,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
 import net.minecraft.sounds.SoundEvents
 import wuritz.bcc.utils.RenderUtils
-import wuritz.bcc.client.utils.timer.CacheTimer
+import wuritz.bcc.utils.timer.CacheTimer
 import wuritz.bcc.network.payloads.incoming.LuckyPayload
 import wuritz.bcc.network.payloads.incoming.ResponsePayload
 import wuritz.bcc.platform.Services

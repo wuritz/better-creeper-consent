@@ -48,19 +48,13 @@
 <!-- Rest  -->
 <!----------->
 
-<h2 align="center">❗ Requirements ❗</h2>
-
-> [!IMPORTANT]
-> Better Creeper Consent won't launch without these mods installed
-
-- Minecraft - `26.3`
-
+<h2 align="center">Requirements</h2>
 ### Fabric
 - [Fabric API](https://modrinth.com/mod/fabric-api) - *(a version that supports MC 26.3)*
 - [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin) - *(a version that supports MC 26.3)*
 
 ### NeoForge
-- [Kotlin for Forge](https://modrinth.com/mod/kotlin-for-forge) - *(a version that supports MC 26.3)*
+- [Kotlin Lang Forge](https://modrinth.com/mod/kotlin-lang-forge) - *(a version that supports MC 26.3)*
 
 <h2 align="center">Features</h2>
 
