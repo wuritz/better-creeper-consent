@@ -12,13 +12,16 @@ import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
 import net.minecraft.sounds.SoundEvents
-import wuritz.bcc.utils.RenderUtils
-import wuritz.bcc.utils.timer.CacheTimer
 import wuritz.bcc.network.payloads.incoming.LuckyPayload
 import wuritz.bcc.network.payloads.incoming.ResponsePayload
 import wuritz.bcc.platform.Services
+import wuritz.bcc.utils.RenderUtils
+import wuritz.bcc.utils.timer.CacheTimer
 import java.awt.Color
 import java.util.concurrent.TimeUnit
+import kotlin.math.ceil
+import kotlin.math.roundToInt
+import kotlin.math.sin
 import kotlin.random.Random
 
 class GamblingScreen(val creeperId: Int, val creeperImage: Identifier, val creeperWidth: Int) : Screen(Component.literal("Consent Gambling")) {
@@ -80,42 +83,109 @@ class GamblingScreen(val creeperId: Int, val creeperImage: Identifier, val creep
         // Middle separator
         graphics.fill(width / 2 - 1, height / 4, width / 2 + 1, (height * 0.75).toInt(), Color(100, 100, 100, 255).rgb)
 
-
+        // Roll mechanics
         if (!isOver) isRollOver()
         else shouldSendPacket()
 
         // Rolling text
-        rollingText = if (isOver) "Your result is:"
-        else updateRollingText()
-
-        RenderUtils.renderScaledText(graphics, rollingText,
-            getRollingX() - 5, getRollingY(), 10, Color.WHITE.rgb, 1.5f)
+        drawRollingText(graphics)
 
         // Result
         val resultString = getResultString()
-        val resultColor = if (!isOver) Color.WHITE.rgb else if (state == State.ALLOW) Color.GREEN.rgb else Color.RED.rgb
+        val resultColor = if (!isOver) calculateRollingTextColor() else
+            if (state == State.ALLOW) Color.GREEN.rgb else Color.RED.rgb
 
         // Result backgrounds
-        graphics.fill(getResultX() - 10, getResultY() - 10, getResultX() + 160, getResultY() + 40, Color(40, 40, 40, 100).rgb)
-        graphics.fill(getResultX() - 7, getResultY() - 7, getResultX() + 157, getResultY() + 37, Color(102, 102, 102, 100).rgb)
-
-        RenderUtils.renderScaledText(graphics, resultString,
-            getResultX(), getResultY(), 20, resultColor, 4f)
+        val calculatedMaxWidth = drawResultWithBackground(resultString, graphics, resultColor)
 
         // Slider action
+        drawSlider(graphics, calculatedMaxWidth)
+
+        super.extractRenderState(graphics, mouseX, mouseY, a)
+    }
+
+    private fun drawRollingText(graphics: GuiGraphicsExtractor) {
+        rollingText = if (isOver) "Your result is:"
+        else updateRollingText()
+
+        RenderUtils.renderScaledText(
+            graphics, rollingText,
+            getRollingX() - 5, getRollingY(), 10,
+            Color.WHITE.rgb,
+            1.5f, true
+        )
+    }
+
+    private fun calculateRollingTextColor() : Int {
+        val min = 100
+        val max = 200
+
+        val period = 2.5 // seconds per full cycle
+
+        val t = System.nanoTime() / 1e9
+        val mid = (min + max) / 2.0
+        val amp = (max - min) / 2.0
+
+        val g = (mid + amp * sin(2 * Math.PI * t / period)).roundToInt()
+
+        return Color(g, g, g).rgb
+    }
+
+    private fun drawSlider(graphics: GuiGraphicsExtractor, maxWidth: Int) {
         if (!isOver) {
             val passed = (endTimer.getElapsedTime(TimeUnit.MILLISECONDS) / 50).toInt()
 
-            rollingSliderPercentage = 1f - passed/100f
-            val sliderToDraw = (140 * (rollingSliderPercentage)).toInt()
+            rollingSliderPercentage = 1f - passed / 100f
+            val sliderToDraw = (maxWidth * (rollingSliderPercentage)).toInt()
 
-            val rColor = (initR + (255 - initR) * passed/100)
-            val gColor = (initG + (255 - initG) * passed/100)
-            val bColor = (initB + (255 - initB) * passed/100)
-            graphics.fill(getSliderX(), getSliderY(), sliderToDraw + getSliderX(), getSliderY() - 3, Color(rColor, gColor, bColor, 255).rgb)
+            val rColor = (initR + (255 - initR) * passed / 100)
+            val gColor = (initG + (255 - initG) * passed / 100)
+            val bColor = (initB + (255 - initB) * passed / 100)
+            graphics.fill(
+                getSliderX(),
+                getSliderY(),
+                sliderToDraw + getSliderX(),
+                getSliderY() - 3,
+                Color(rColor, gColor, bColor, 255).rgb
+            )
         }
+    }
 
-        super.extractRenderState(graphics, mouseX, mouseY, a)
+    private fun drawResultWithBackground(
+        resultString: String,
+        graphics: GuiGraphicsExtractor,
+        resultColor: Int
+    ): Int {
+        val font = Minecraft.getInstance().font
+        val textScale = 4f
+
+        val rawWidth = font.width(Component.literal(resultString))
+        val rawHeight = font.lineHeight
+        val scaledWidth = ceil(rawWidth * textScale).toInt()
+        val scaledHeight = ceil(rawHeight * textScale).toInt()
+
+        graphics.fill(
+            getResultX() - 10,
+            getResultY() - 10,
+            getResultX() + scaledWidth + 10,
+            getResultY() + scaledHeight,
+            //Color(40, 40, 40, 100).rgb
+                    Color(40, 40, 40, 100).rgb
+        )
+        graphics.fill(
+            getResultX() - 7,
+            getResultY() - 7,
+            getResultX() + scaledWidth + 7,
+            getResultY() + scaledHeight - 3,
+            Color(102, 102, 102, 100).rgb
+        )
+
+        RenderUtils.renderScaledText(
+            graphics, resultString,
+            getResultX(), getResultY(), 20, resultColor, 4f, isOver
+        )
+
+        return scaledWidth
     }
 
     /**
