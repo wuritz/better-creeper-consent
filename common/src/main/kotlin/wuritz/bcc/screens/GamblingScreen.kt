@@ -116,6 +116,9 @@ class GamblingScreen(val creeperId: Int, val creeperImage: Identifier, val creep
         )
     }
 
+    /**
+     * Like a sine-wave
+     */
     private fun calculateRollingTextColor() : Int {
         val min = 100
         val max = 200
