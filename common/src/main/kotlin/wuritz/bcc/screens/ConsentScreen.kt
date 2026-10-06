@@ -133,19 +133,53 @@ class ConsentScreen(val creeperId: Int) : Screen(Component.literal("Consent")) {
         graphics.fill(width / 2 - 1, height / 4, width / 2 + 1, (height * 0.75).toInt(), Color(100, 100, 100, 255).rgb)
 
         // Button auras
-        graphics.fill(getButtonX() - 2, getAllowButtonY() - 2,
-            getButtonX() + totalButtonWidth + 2, getAllowButtonY() + 2 + BUTTON_HEIGHT,
-            Color(87, 255, 92, 200).rgb)
-
-        graphics.fill(getButtonX() - 2, getDenyButtonY() - 2,
-            getButtonX() + totalButtonWidth + 2, getDenyButtonY() + 2 + BUTTON_HEIGHT,
-            Color(255, 110, 110, 200).rgb)
-
-        graphics.fill(getButtonX() - 2, getGamblingButtonY() - 2,
-            getButtonX() + totalButtonWidth + 2, getGamblingButtonY() + BUTTON_HEIGHT + 2,
-            Color(244, 255, 110, 200).rgb)
+        drawButtonAuras(mouseX, mouseY, graphics)
 
         super.extractRenderState(graphics, mouseX, mouseY, a)
+    }
+
+    private fun drawButtonAuras(mouseX: Int, mouseY: Int, graphics: GuiGraphicsExtractor) {
+        val auraX = arrayOf(getButtonX() - 2, getButtonX() + totalButtonWidth + 2) // x0, x1
+
+        val allowAura = arrayOf(getAllowButtonY() - 2, getAllowButtonY() + 2 + BUTTON_HEIGHT) // y0, y1
+        val denyAura = arrayOf(getDenyButtonY() - 2, getDenyButtonY() + 2 + BUTTON_HEIGHT) // y0, y1
+        val gamblingAura = arrayOf(getGamblingButtonY() - 2, getGamblingButtonY() + BUTTON_HEIGHT + 2) // y0, y1
+
+        var allowAuraColor = Color(87, 255, 92, 100).rgb
+        var denyAuraColor = Color(255, 110, 110, 100).rgb
+        var gamblingAuraColor = Color(244, 255, 110, 100).rgb
+
+        if (mouseX >= auraX[0] && mouseX <= auraX[1]) {
+            allowAuraColor = if (mouseY >= allowAura[0] && mouseY <= allowAura[1])
+                Color(87, 255, 92, 230).rgb
+            else
+                Color(87, 255, 92, 100).rgb
+
+            denyAuraColor = if (mouseY >= denyAura[0] && mouseY <= denyAura[1])
+                Color(255, 110, 110, 230).rgb
+            else
+                Color(255, 110, 110, 100).rgb
+
+            gamblingAuraColor = if (mouseY >= gamblingAura[0] && mouseY <= gamblingAura[1])
+                Color(244, 255, 110, 230).rgb
+            else
+                Color(244, 255, 110, 100).rgb
+        }
+
+        graphics.fill(
+            auraX[0], allowAura[0], auraX[1], allowAura[1],
+            allowAuraColor
+        )
+
+        graphics.fill(
+            auraX[0], denyAura[0], auraX[1], denyAura[1],
+            denyAuraColor
+        )
+
+        graphics.fill(
+            auraX[0], gamblingAura[0], auraX[1], gamblingAura[1],
+            gamblingAuraColor
+        )
     }
 
     /**
