@@ -2,7 +2,6 @@ plugins {
     id 'multiloader-common'
     id 'net.neoforged.moddev'
     id 'org.jetbrains.kotlin.jvm' version '2.4.10'
-    id "org.jetbrains.kotlin.kapt"
 }
 
 neoForge {

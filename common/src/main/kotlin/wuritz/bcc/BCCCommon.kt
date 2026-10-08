@@ -16,4 +16,5 @@ object BCCCommon {
 
     fun id(path: String): Identifier
             = Identifier.fromNamespaceAndPath(Constants.MOD_ID, path)
+    
 }

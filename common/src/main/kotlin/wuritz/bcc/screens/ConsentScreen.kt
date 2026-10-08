@@ -12,7 +12,7 @@ import net.minecraft.client.gui.components.*
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 import wuritz.bcc.BCCCommon
-import wuritz.bcc.utils.Creepers
+import wuritz.bcc.utils.creeper.Creepers
 import wuritz.bcc.network.payloads.incoming.ResponsePayload
 import wuritz.bcc.platform.Services
 import java.awt.Color

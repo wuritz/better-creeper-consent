@@ -5,7 +5,7 @@
 
 package wuritz.bcc.screens.options
 
-import wuritz.bcc.utils.CreeperPersonalities
+import wuritz.bcc.utils.creeper.CreeperPersonalities
 
 data class OptionsRecord(
     val crp_animation: Boolean,

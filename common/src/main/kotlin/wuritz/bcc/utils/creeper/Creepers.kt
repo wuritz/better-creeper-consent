@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package wuritz.bcc.utils
+package wuritz.bcc.utils.creeper
 
 import net.minecraft.resources.Identifier
 import wuritz.bcc.BCCCommon

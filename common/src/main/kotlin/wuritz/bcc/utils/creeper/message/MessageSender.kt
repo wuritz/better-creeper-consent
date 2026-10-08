@@ -3,23 +3,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package wuritz.bcc.utils
+package wuritz.bcc.utils.creeper.message
 
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
-import kotlin.random.Random
+import net.minecraft.world.level.LightLayer
+import net.minecraft.world.level.biome.Biomes
+import net.minecraft.world.level.levelgen.Heightmap
 
 object MessageSender {
-
-    val ALLOW_MSG = listOf(
-        "Yay!", "The best choice!", "Sorry for your buildings :(", "I hope you don't have any pets around >:("
-    )
-
-    val DENY_MSG = listOf(
-        "Aw :(", "Maybe next time :(", "Your buildings are saved for now..", "My relatives will have a talk with you..",
-        "I'm gonna go elsewhere then..", "Bye! :D", "Fair enough. :(", "Next time reconsider it please :("
-    )
 
     val prefix = Component.literal("<Creeper> ")
         .withStyle(ChatFormatting.WHITE)
@@ -31,7 +24,7 @@ object MessageSender {
         player.sendSystemMessage(
             output.append(
                 Component.literal(
-                    ALLOW_MSG[Random.nextInt(0, ALLOW_MSG.size - 1)])
+                    if (isInsideCave(player)) CreeperMessages.randomCaveAllowMessage() else CreeperMessages.randomAllowMessage())
                     .withStyle(ChatFormatting.GREEN)
             )
         )
@@ -44,7 +37,7 @@ object MessageSender {
         player.sendSystemMessage(
             output.append(
                 Component.literal(
-                    DENY_MSG[Random.nextInt(0, DENY_MSG.size - 1)])
+                    if (isInsideCave(player)) CreeperMessages.randomCaveDenyMessage() else CreeperMessages.randomDenyMessage())
                     .withStyle(ChatFormatting.GREEN)
             )
         )
@@ -61,5 +54,18 @@ object MessageSender {
                     .withStyle(ChatFormatting.RED)
             )
         )
+    }
+
+    private fun isInsideCave(player: ServerPlayer): Boolean {
+        val biomeHolder = player.level().getBiome(player.blockPosition())
+
+        if (biomeHolder.`is`(Biomes.LUSH_CAVES) || biomeHolder.`is`(Biomes.DRIPSTONE_CAVES) || biomeHolder.`is`(Biomes.SULFUR_CAVES))
+            return true
+        else {
+            val skyLight = player.level().getBrightness(LightLayer.SKY, player.blockPosition())
+            val surfaceY = player.level().getHeight(Heightmap.Types.WORLD_SURFACE, player.blockPosition().x, player.blockPosition().z)
+
+            return skyLight == 0 && player.blockPosition().y < (surfaceY - 10)
+        }
     }
 }

@@ -11,7 +11,7 @@ import net.minecraft.world.entity.monster.Creeper
 import wuritz.bcc.network.CreeperQueue
 import wuritz.bcc.utils.Constants
 import wuritz.bcc.utils.LuckyAction
-import wuritz.bcc.utils.MessageSender
+import wuritz.bcc.utils.creeper.message.MessageSender
 
 object ClientPayloadHandler {
 
