@@ -52,11 +52,11 @@
 <h2 align="center">Requirements</h2>
 
 ### Fabric
-- [Fabric API](https://modrinth.com/mod/fabric-api) - *(a version that supports MC 26.3)*
-- [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin) - *(a version that supports MC 26.3)*
+- [Fabric API](https://modrinth.com/mod/fabric-api)
+- [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin)
 
 ### NeoForge
-- [Kotlin Lang Forge](https://modrinth.com/mod/kotlin-lang-forge) - *(a version that supports MC 26.3)*
+- [Kotlin Lang Forge](https://modrinth.com/mod/kotlin-lang-forge)
 
 <h2 align="center">Features</h2>
 
