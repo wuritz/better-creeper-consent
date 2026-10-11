@@ -83,3 +83,7 @@ sourceSets.configureEach {
 tasks.named('compileKotlin') {
     dependsOn(configurations.commonKotlin)
 }
+
+tasks.named('jar') {
+    archiveClassifier = project.name
+}
