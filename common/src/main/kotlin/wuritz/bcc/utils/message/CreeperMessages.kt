@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package wuritz.bcc.utils.creeper.message
+package wuritz.bcc.utils.message
 
 object CreeperMessages {
 

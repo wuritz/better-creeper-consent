@@ -12,7 +12,7 @@ import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.item.PrimedTnt
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import wuritz.bcc.utils.creeper.message.MessageSender
+import wuritz.bcc.utils.message.MessageSender
 import kotlin.random.Random
 
 class LuckyAction(val pos: BlockPos, val level: ServerLevel, val player: ServerPlayer) {
