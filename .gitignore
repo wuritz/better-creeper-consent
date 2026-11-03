@@ -22,3 +22,9 @@ build
 eclipse
 run
 runs
+src/generated
+runclient.log
+runclient.err
+
+# kotlin
+.kotlin

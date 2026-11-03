@@ -33,7 +33,7 @@
     <img alt="curseforge badge" src="https://cf.way2muchnoise.eu/full_1637414_downloads.svg">
 </div>
 <div align="center">
-    <img alt="platform" src="https://img.shields.io/badge/Platform-Fabric_%26_NeoForge-blue?style=for-the-badge">
+    <img alt="platform" src="https://img.shields.io/badge/Platform-NeoForge-blue?style=for-the-badge">
 </div>
 
 <br>
@@ -51,12 +51,9 @@
 
 <h2 align="center">Requirements</h2>
 
-### Fabric
-- [Fabric API](https://modrinth.com/mod/fabric-api)
-- [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin)
-
-### NeoForge
-- [Kotlin Lang Forge](https://modrinth.com/mod/kotlin-lang-forge)
+- Minecraft **1.21.1**
+- [NeoForge](https://neoforged.net/) **21.1.x**
+- [KotlinLangForge](https://modrinth.com/mod/kotlin-lang-forge)
 
 <h2 align="center">Features</h2>
 
@@ -109,7 +106,7 @@ You can win various creeper-related items:
 <ol>
     <li>Download the latest <code>.jar</code> file from here or from Modrinth</li>
     <li>Locate your <code>mods/</code> folder</li>
-    <li>Put the BCC <code>.jar</code> file alongside with your Fabric API and Kotlin <code>.jar</code> files</li>
+    <li>Put the BCC <code>.jar</code> file alongside with the KotlinLangForge <code>.jar</code> file</li>
     <li>Have fun!</li>
 </ol>
 

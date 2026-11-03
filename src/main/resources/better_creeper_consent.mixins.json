@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "wuritz.bcc.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "CreeperMixin",
+    "ServerPlayerMixin"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

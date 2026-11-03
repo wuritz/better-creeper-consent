@@ -1,0 +1,34 @@
+/*
+ * Copyright (c) 2026. wuritz
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package wuritz.bcc.network.payloads.outgoing
+
+import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.codec.ByteBufCodecs
+import net.minecraft.network.codec.StreamCodec
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload
+import net.minecraft.resources.ResourceLocation
+import wuritz.bcc.utils.Constants
+
+/**
+ * TODO: implement options screen
+ * The options screen is a big idea for the future
+ */
+@JvmRecord
+data class OpenOptionsScreenPayload(val id: Int) : CustomPacketPayload {
+
+    companion object {
+        val PAYLOAD_ID = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "open_options_screen")
+        val TYPE: CustomPacketPayload.Type<OpenOptionsScreenPayload> = CustomPacketPayload.Type(PAYLOAD_ID)
+        val CODEC: StreamCodec<RegistryFriendlyByteBuf, OpenOptionsScreenPayload> =
+            StreamCodec.composite(ByteBufCodecs.INT, OpenOptionsScreenPayload::id, ::OpenOptionsScreenPayload)
+    }
+
+    override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
+        return TYPE
+    }
+
+
+}
