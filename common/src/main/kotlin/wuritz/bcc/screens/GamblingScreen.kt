@@ -24,7 +24,7 @@ import kotlin.math.roundToInt
 import kotlin.math.sin
 import kotlin.random.Random
 
-class GamblingScreen(val creeperId: Int, val creeperImage: Identifier, val creeperWidth: Int) : Screen(Component.literal("Consent Gambling")) {
+class GamblingScreen(val creeperId: Int, val creeperImage: Identifier, val creeperWidth: Int) : Screen(Component.literal("Consent Roll")) {
 
     var state = State.ALLOW
 
