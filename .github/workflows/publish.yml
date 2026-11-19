@@ -21,16 +21,16 @@ jobs:
         run: |
           matrix=$(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '
             [ .assets[].name
-              | capture("\\+(?<mc>[^-]+)-(?<loader>fabric|neoforge)\\.jar$") + {file: .}
+              | capture("\\+(?<mc>[^-]+)-.+-(?<loader>fabric|neoforge)\\.jar$") + {file: .}
             ]' | jq -c .)
-
+          
           echo "Matrix: $matrix"
-
+          
           if [ "$(jq length <<< "$matrix")" -eq 0 ]; then
             echo "No *-fabric.jar / *-neoforge.jar assets found on release $TAG" >&2
             exit 1
           fi
-
+          
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
   publish:
