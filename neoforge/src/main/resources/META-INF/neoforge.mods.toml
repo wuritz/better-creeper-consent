@@ -1,4 +1,4 @@
-modLoader = "klf" #mandatory
+modLoader = "kotlinforforge" #mandatory
 loaderVersion = "[1,)" #mandatory
 license = "${license}" # Review your options at https://choosealicense.com/.
 issueTrackerURL="https://github.com/wuritz/better-creeper-consent/issues" #optional

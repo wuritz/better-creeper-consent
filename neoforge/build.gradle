@@ -6,7 +6,8 @@ plugins {
 
 repositories {
     maven {
-        url "https://repo.nyon.dev/releases"
+        name = "Kotlin for Forge"
+        setUrl("https://thedarkcolour.github.io/KotlinForForge/")
     }
 }
 
@@ -17,7 +18,7 @@ configurations {
 }
 
 dependencies {
-    implementation "dev.nyon:KotlinLangForge:${klf_version}"
+    implementation("thedarkcolour:kotlinforforge-neoforge:${kotlin_forge_version}")
 
     commonKotlin(project(path: ':common', configuration: 'commonKotlin'))
 }

@@ -105,7 +105,7 @@ class GamblingScreen(val creeperId: Int, val creeperImage: Identifier, val creep
     }
 
     private fun drawRollingText(graphics: GuiGraphicsExtractor) {
-        rollingText = if (isOver) "Your result is:"
+        rollingText = if (isOver) "Result:"
         else updateRollingText()
 
         RenderUtils.renderScaledText(
@@ -204,7 +204,7 @@ class GamblingScreen(val creeperId: Int, val creeperImage: Identifier, val creep
     }
 
     private fun getRollingY() : Int {
-        return height / 2 - mcFont.lineHeight - 27
+        return height / 2 - mcFont.lineHeight - 26
     }
 
     private fun getResultX() : Int {
