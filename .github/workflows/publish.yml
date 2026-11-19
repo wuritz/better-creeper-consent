@@ -1,81 +1,102 @@
-  name: Publish GH release on Modrinth & CurseForge
+name: Publish GH release on Modrinth & CurseForge
 
-  on:
-    release:
-      types: [published]
+on:
+  release:
+    types: [published]
 
-  permissions:
-    contents: read
+permissions:
+  contents: read
 
-  jobs:
-    publish:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Download jars from the release assets
-          env:
-            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            TAG: ${{ github.event.release.tag_name }}
-          run: |
-            gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "*.jar" --dir assets
-            ls -l assets
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - name: Build matrix from release assets
+        id: matrix
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          matrix=$(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '
+            [ .assets[].name
+              | capture("\\+(?<mc>[^-]+)-(?<loader>fabric|neoforge)\\.jar$") + {file: .}
+            ]' | jq -c .)
 
-        - name: Get Minecraft version from jar
-          id: mc
-          run: |
-            jar=$(ls assets/*-fabric.jar | head -n1)
-            version=$(basename "$jar" | grep -oP '(?<=\+)[^-]+')
-            if [ -z "$version" ]; then
-              echo "Could not parse Minecraft version from $jar" >&2
-              exit 1
-            fi
-            echo "Detected Minecraft version: $version"
-            echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Matrix: $matrix"
 
-        - name: Publish Fabric version
-          uses: Kir-Antipov/mc-publish@v3.3
-          with:
-            modrinth-id: w5lQ83OE
-            modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-            curseforge-id: 1637414
-            curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          if [ "$(jq length <<< "$matrix")" -eq 0 ]; then
+            echo "No *-fabric.jar / *-neoforge.jar assets found on release $TAG" >&2
+            exit 1
+          fi
 
-            files: |
-              assets/*-fabric.jar
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
-            name: ${{ github.event.release.name }} (Fabric)
-            version: ${{ github.event.release.tag_name }}+fabric
-            version-type: ${{ github.event.release.prerelease && 'beta' || 'release' }}
-            changelog: ${{ github.event.release.body }}
+  publish:
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      # max-parallel: 1
+      matrix:
+        include: ${{ fromJson(needs.prepare.outputs.matrix) }}
+    name: ${{ matrix.loader }} ${{ matrix.mc }}
+    steps:
+      - name: Download jar from the release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.release.tag_name }}
+          FILE: ${{ matrix.file }}
+        run: |
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "$FILE" --dir assets
+          ls -l assets
 
-            loaders: fabric
-            game-versions: ${{ steps.mc.outputs.version }}
+      - name: Publish Fabric version
+        if: matrix.loader == 'fabric'
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          modrinth-id: ${{ secrets.MODRINTH_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          curseforge-id: ${{ secrets.CURSEFORGE_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
-            dependencies: |
-              fabric-api(required)
-              fabric-language-kotlin(required)
+          files: assets/${{ matrix.file }}
 
-            fail-mode: fail
+          name: ${{ github.event.release.name }} (Fabric ${{ matrix.mc }})
+          version: ${{ github.event.release.tag_name }}+${{ matrix.mc }}-fabric
+          version-type: ${{ github.event.release.prerelease && 'beta' || 'release' }}
+          changelog: ${{ github.event.release.body }}
 
-        - name: Publish NeoForge version
-          uses: Kir-Antipov/mc-publish@v3.3
-          with:
-            modrinth-id: w5lQ83OE
-            modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-            curseforge-id: 1637414
-            curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          loaders: fabric
+          game-versions: ${{ matrix.mc }}
 
-            files: |
-              assets/*-neoforge.jar
+          dependencies: |
+            fabric-api(required)
+            fabric-language-kotlin(required)
 
-            name: ${{ github.event.release.name }} (NeoForge)
-            version: ${{ github.event.release.tag_name }}+neoforge
-            version-type: ${{ github.event.release.prerelease && 'beta' || 'release' }}
-            changelog: ${{ github.event.release.body }}
+          fail-mode: fail
 
-            loaders: neoforge
-            game-versions: ${{ steps.mc.outputs.version }}
+      - name: Publish NeoForge version
+        if: matrix.loader == 'neoforge'
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          modrinth-id: ${{ secrets.MODRINTH_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          curseforge-id: ${{ secrets.CURSEFORGE_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
-            dependencies: |
-              kotlin-lang-forge(required)#(ignore:curseforge)
+          files: assets/${{ matrix.file }}
 
-            fail-mode: fail
+          name: ${{ github.event.release.name }} (NeoForge ${{ matrix.mc }})
+          version: ${{ github.event.release.tag_name }}+${{ matrix.mc }}-neoforge
+          version-type: ${{ github.event.release.prerelease && 'beta' || 'release' }}
+          changelog: ${{ github.event.release.body }}
+
+          loaders: neoforge
+          game-versions: ${{ matrix.mc }}
+
+          dependencies: |
+            kotlin-for-forge(required)#(ignore:curseforge)
+
+          fail-mode: fail

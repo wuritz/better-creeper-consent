@@ -56,7 +56,7 @@
 - [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin)
 
 ### NeoForge
-- [Kotlin Lang Forge](https://modrinth.com/mod/kotlin-lang-forge)
+- [Kotlin for Forge](https://modrinth.com/mod/kotlin-for-forge)
 
 <h2 align="center">Features</h2>
 
