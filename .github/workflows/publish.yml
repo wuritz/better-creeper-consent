@@ -35,9 +35,6 @@ jobs:
           import sys
           from pathlib import Path
 
-          # Matches: <mod_id>+<mc_version>-<mod_version>-<loader>.jar
-          # Example: better_creeper_consent+26.2-1.5.1-fabric.jar
-          # Automatically ignores -sources.jar, -dev.jar, -javadoc.jar, etc.
           pattern = re.compile(
               r"^[^+]+\+(\d+(?:\.\d+)+(?:-(?:pre|rc|snapshot)-?\d+)?)-(.+?)-(fabric|neoforge)\.jar$",
               re.IGNORECASE,
@@ -76,7 +73,7 @@ jobs:
               print(f"Queued: {jar_path.name} -> {release_name} ({version_type})")
 
           if not entries:
-              print("::error::No matching Fabric or NeoForge JAR files found!")
+              print("::error:: No matching Fabric or NeoForge JAR files found!")
               sys.exit(1)
 
           matrix_json = json.dumps({"include": entries})
