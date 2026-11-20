@@ -109,10 +109,10 @@ jobs:
       - name: Publish to Modrinth and CurseForge
         uses: Kira-NT/mc-publish@v3
         with:
-          modrinth-id: "YOUR_MODRINTH_PROJECT_ID"
+          modrinth-id: ${{ secrets.MODRINTH_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
-          curseforge-id: "YOUR_CURSEFORGE_PROJECT_ID"
+          curseforge-id: ${{ secrets.CURSEFORGE_ID }}
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
           files: ${{ matrix.file }}
