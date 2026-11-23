@@ -49,16 +49,14 @@
 <!-- Rest  -->
 <!----------->
 
-<h2 align="center">Requirements</h2>
+## Requirements
 
-### Fabric
-- [Fabric API](https://modrinth.com/mod/fabric-api)
-- [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin)
+| Platform | Dependency |
+| -------- | ---------- |
+| **Fabric** | [Fabric API](https://modrinth.com/mod/fabric-api), [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin) |
+| **NeoForge** | [Kotlin for Forge](https://modrinth.com/mod/kotlin-for-forge) |
 
-### NeoForge
-- [Kotlin for Forge](https://modrinth.com/mod/kotlin-for-forge)
-
-<h2 align="center">Features</h2>
+## Features
 
 ### Core Features
 
@@ -105,7 +103,7 @@ You can win various creeper-related items:
 > [!WARNING]
 > There's also a 5% chance you get an **ignited TNT** in the place of the creeper, instead of getting an item drop.
 
-<h2 align="center">Installation</h2>
+## Installation
 <ol>
     <li>Download the latest <code>.jar</code> file from here or from Modrinth</li>
     <li>Locate your <code>mods/</code> folder</li>
@@ -113,7 +111,11 @@ You can win various creeper-related items:
     <li>Have fun!</li>
 </ol>
 
-<h2 align="center">Credits</h2>
+<!------------->
+<!---Footer---->
+<!------------->
+
+## Credits
 <ul>
     <li>Thank you to my <strong>lovely girlfriend</strong> for making the illustrations, including the logo and the creepers :33</li>
     <li>
