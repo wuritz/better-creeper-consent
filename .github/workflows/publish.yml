@@ -1,81 +1,56 @@
-  name: Publish GH release on Modrinth & CurseForge
+name: Publish GH release on Modrinth & CurseForge
 
-  on:
-    release:
-      types: [published]
+on:
+  release:
+    types: [published]
 
-  permissions:
-    contents: read
+permissions:
+  contents: read
 
-  jobs:
-    publish:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Download jars from the release assets
-          env:
-            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            TAG: ${{ github.event.release.tag_name }}
-          run: |
-            gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "*.jar" --dir assets
-            ls -l assets
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download jars from the release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "*.jar" --dir assets
+          ls -l assets
 
-        - name: Get Minecraft version from jar
-          id: mc
-          run: |
-            jar=$(ls assets/*-fabric.jar | head -n1)
-            version=$(basename "$jar" | grep -oP '(?<=\+)[^-]+')
-            if [ -z "$version" ]; then
-              echo "Could not parse Minecraft version from $jar" >&2
-              exit 1
-            fi
-            echo "Detected Minecraft version: $version"
-            echo "version=$version" >> "$GITHUB_OUTPUT"
+      - name: Get Minecraft version from jar
+        id: mc
+        run: |
+          jar=$(ls assets/*-neoforge.jar | head -n1)
+          version=$(basename "$jar" | grep -oP '(?<=\+)[^-]+')
+          if [ -z "$version" ]; then
+            echo "Could not parse Minecraft version from $jar" >&2
+            exit 1
+          fi
+          echo "Detected Minecraft version: $version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
 
-        - name: Publish Fabric version
-          uses: Kir-Antipov/mc-publish@v3.3
-          with:
-            modrinth-id: w5lQ83OE
-            modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-            curseforge-id: 1637414
-            curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+      - name: Publish NeoForge version
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          modrinth-id: w5lQ83OE
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          curseforge-id: 1637414
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
-            files: |
-              assets/*-fabric.jar
+          files: |
+            assets/*-neoforge.jar
 
-            name: ${{ github.event.release.name }} (Fabric)
-            version: ${{ github.event.release.tag_name }}+fabric
-            version-type: ${{ github.event.release.prerelease && 'beta' || 'release' }}
-            changelog: ${{ github.event.release.body }}
+          name: ${{ github.event.release.name }} (NeoForge)
+          version: ${{ github.event.release.tag_name }}+neoforge
+          version-type: ${{ github.event.release.prerelease && 'beta' || 'release' }}
+          changelog: ${{ github.event.release.body }}
 
-            loaders: fabric
-            game-versions: ${{ steps.mc.outputs.version }}
+          loaders: neoforge
+          game-versions: ${{ steps.mc.outputs.version }}
 
-            dependencies: |
-              fabric-api(required)
-              fabric-language-kotlin(required)
+          dependencies: |
+            kotlin-lang-forge(required)#(ignore:curseforge)
 
-            fail-mode: fail
-
-        - name: Publish NeoForge version
-          uses: Kir-Antipov/mc-publish@v3.3
-          with:
-            modrinth-id: w5lQ83OE
-            modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-            curseforge-id: 1637414
-            curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-
-            files: |
-              assets/*-neoforge.jar
-
-            name: ${{ github.event.release.name }} (NeoForge)
-            version: ${{ github.event.release.tag_name }}+neoforge
-            version-type: ${{ github.event.release.prerelease && 'beta' || 'release' }}
-            changelog: ${{ github.event.release.body }}
-
-            loaders: neoforge
-            game-versions: ${{ steps.mc.outputs.version }}
-
-            dependencies: |
-              kotlin-lang-forge(required)#(ignore:curseforge)
-
-            fail-mode: fail
+          fail-mode: fail

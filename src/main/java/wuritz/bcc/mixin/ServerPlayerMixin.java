@@ -1,0 +1,38 @@
+/*
+ * Copyright (c) 2026. wuritz
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package wuritz.bcc.mixin;
+
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.server.level.ServerPlayer;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import wuritz.bcc.network.CreeperQueue;
+import wuritz.bcc.utils.Constants;
+
+import java.util.UUID;
+
+@Mixin(ServerPlayer.class)
+public abstract class ServerPlayerMixin {
+
+    @Inject(method = "die", at = @At("TAIL"))
+    private void injectDie(DamageSource source, CallbackInfo ci) {
+        ServerPlayer player = (ServerPlayer)(Object)this;
+        UUID playerUUID = player.getUUID();
+        UUID creeperUUID = CreeperQueue.INSTANCE.getPendingCreeperForPlayer(playerUUID);
+        if (creeperUUID == null) return;
+
+        Creeper creeper = (Creeper) player.serverLevel().getEntity(creeperUUID);
+        if (creeper == null) return;
+        if (CreeperQueue.INSTANCE.consumePending(creeperUUID)) {
+            creeper.discard();
+            Constants.LOG.info("{} has died, and a pending creeper was discarded.", player.getDisplayName().getString());
+        }
+    }
+
+}

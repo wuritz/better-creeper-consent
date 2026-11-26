@@ -1,6 +1,119 @@
 plugins {
-    // see https://maven.fabricmc.net/fabric-loom/fabric-loom.gradle.plugin/maven-metadata.xml for new versions
-    id 'net.fabricmc.fabric-loom' version '1.18.1' apply false
-    // see https://projects.neoforged.net/neoforged/moddevgradle for new versions
-    id 'net.neoforged.moddev' version '2.0.147' apply false
+    id 'java'
+    id 'net.neoforged.moddev' version '2.0.147'
+    id 'org.jetbrains.kotlin.jvm' version '2.0.21'
+}
+
+base {
+    archivesName = "${mod_id}+${minecraft_version}"
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(java_version.toInteger())
+    withSourcesJar()
+}
+
+kotlin {
+    jvmToolchain(java_version.toInteger())
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'KotlinLangForge'
+        url = 'https://repo.nyon.dev/releases'
+    }
+}
+
+dependencies {
+    // Kotlin language loader + Kotlin standard library for NeoForge 1.21.1.
+    // This is a LIBRARY mod; players need to install it alongside the mod.
+    implementation "dev.nyon:KotlinLangForge:${klf_version}"
+}
+
+neoForge {
+    version = neoforge_version
+
+    runs {
+        client {
+            client()
+            gameDirectory = project.file('runs/client')
+        }
+        server {
+            server()
+            gameDirectory = project.file('runs/server')
+        }
+        data {
+            data()
+            gameDirectory = project.file('runs/data')
+            programArguments.addAll '--mod', mod_id, '--all',
+                    '--output', project.file('src/generated/resources/').absolutePath,
+                    '--existing', project.file('src/main/resources/').absolutePath
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+tasks.withType(Jar).configureEach {
+    from(rootProject.file('LICENSE')) {
+        rename { "${it}_${mod_name}" }
+    }
+}
+
+jar {
+    archiveClassifier = 'neoforge'
+
+    manifest {
+        attributes([
+                'Specification-Title'   : mod_name,
+                'Specification-Vendor'  : mod_author,
+                'Specification-Version' : project.jar.archiveVersion,
+                'Implementation-Title'  : project.name,
+                'Implementation-Version': project.jar.archiveVersion,
+                'Implementation-Vendor' : mod_author,
+                'Built-On-Minecraft'    : minecraft_version
+        ])
+    }
+}
+
+processResources {
+    def expandProps = [
+            'version'                 : version,
+            'group'                   : project.group,
+            'minecraft_version'       : minecraft_version,
+            'minecraft_version_range' : minecraft_version_range,
+            'mod_name'                : mod_name,
+            'mod_author'              : mod_author,
+            'mod_id'                  : mod_id,
+            'license'                 : license,
+            'description'             : project.description,
+            'neoforge_version'        : neoforge_version,
+            'neoforge_version_range'  : neoforge_version_range,
+            'credits'                 : credits,
+            'java_version'            : java_version
+    ]
+
+    inputs.properties(expandProps)
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand expandProps
+    }
+
+    filesMatching(['pack.mcmeta', '*.mixins.json']) {
+        expand expandProps.collectEntries { key, value ->
+            [(key): value instanceof String ? value.replace('\n', '\\\\n') : value]
+        }
+    }
+}
+
+// Make the Kotlin compiler and the Java compiler agree on the JVM target.
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.fromTarget(java_version.toString())
+    }
 }

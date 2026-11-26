@@ -1,0 +1,30 @@
+/*
+ * Copyright (c) 2026. wuritz
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package wuritz.bcc.network.payloads.incoming
+
+import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.codec.ByteBufCodecs
+import net.minecraft.network.codec.StreamCodec
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload
+import net.minecraft.resources.ResourceLocation
+import wuritz.bcc.utils.Constants
+
+@JvmRecord
+data class LuckyPayload(val creeperId: Int) : CustomPacketPayload {
+
+    companion object {
+        val PAYLOAD_ID = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "lucky_payload")
+        val TYPE: CustomPacketPayload.Type<LuckyPayload> = CustomPacketPayload.Type(PAYLOAD_ID)
+        val CODEC: StreamCodec<RegistryFriendlyByteBuf, LuckyPayload> =
+            StreamCodec.composite(
+                ByteBufCodecs.INT, LuckyPayload::creeperId,
+                ::LuckyPayload)
+    }
+
+    override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
+        return TYPE
+    }
+}
