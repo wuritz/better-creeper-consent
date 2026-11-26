@@ -22,7 +22,7 @@ build
 eclipse
 run
 runs
-src/generated
+common/src/generated
 runclient.log
 runclient.err
 
