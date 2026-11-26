@@ -1,4 +1,4 @@
-name: Publish GH release on Modrinth & CurseForge
+name: Publish Mod to Modrinth & CurseForge
 
 on:
   release:
@@ -8,49 +8,116 @@ permissions:
   contents: read
 
 jobs:
-  publish:
+  prepare:
+    name: Parse Mod JARs
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.parse.outputs.matrix }}
+
     steps:
-      - name: Download jars from the release assets
+      - name: Download JARs from GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: ${{ github.event.release.tag_name }}
         run: |
-          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "*.jar" --dir assets
-          ls -l assets
+          mkdir -p jars
+          gh release download "${{ github.event.release.tag_name }}" \
+            --repo "${{ github.repository }}" \
+            --pattern "*.jar" \
+            --dir ./jars
 
-      - name: Get Minecraft version from jar
-        id: mc
+      - name: Parse filenames and build publish matrix
+        id: parse
+        shell: python3 {0}
         run: |
-          jar=$(ls assets/*-neoforge.jar | head -n1)
-          version=$(basename "$jar" | grep -oP '(?<=\+)[^-]+')
-          if [ -z "$version" ]; then
-            echo "Could not parse Minecraft version from $jar" >&2
-            exit 1
-          fi
-          echo "Detected Minecraft version: $version"
-          echo "version=$version" >> "$GITHUB_OUTPUT"
+          import json
+          import os
+          import re
+          import sys
+          from pathlib import Path
 
-      - name: Publish NeoForge version
-        uses: Kir-Antipov/mc-publish@v3.3
+          pattern = re.compile(
+              r"^[^+]+\+(\d+(?:\.\d+)+(?:-(?:pre|rc|snapshot)-?\d+)?)-(.+?)-(fabric|neoforge)\.jar$",
+              re.IGNORECASE,
+          )
+
+          entries = []
+          for jar_path in sorted(Path("jars").rglob("*.jar")):
+              match = pattern.match(jar_path.name)
+              if not match:
+                  print(f"Skipping unmatched file: {jar_path.name}")
+                  continue
+
+              mc_version, mod_version, loader = match.groups()
+              loader = loader.lower()
+
+              # Detect release channel from mod version
+              lower_ver = mod_version.lower()
+              if "alpha" in lower_ver:
+                  version_type = "alpha"
+              elif "beta" in lower_ver or "rc" in lower_ver:
+                  version_type = "beta"
+              else:
+                  version_type = "release"
+
+              release_name = f"{mc_version}-{mod_version}-{loader}"
+
+              entry = {
+                  "file": jar_path.as_posix(),
+                  "mc_version": mc_version,
+                  "mod_version": mod_version,
+                  "loader": loader,
+                  "version_type": version_type,
+                  "release_name": release_name,
+              }
+              entries.append(entry)
+              print(f"Queued: {jar_path.name} -> {release_name} ({version_type})")
+
+          if not entries:
+              print("::error:: No matching Fabric or NeoForge JAR files found!")
+              sys.exit(1)
+
+          matrix_json = json.dumps({"include": entries})
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as out:
+              out.write(f"matrix={matrix_json}\n")
+
+      - name: Upload JARs for publish jobs
+        uses: actions/upload-artifact@v4
         with:
-          modrinth-id: w5lQ83OE
+          name: mod-jars
+          path: ./jars
+          retention-days: 1
+
+  publish:
+    name: Publish ${{ matrix.release_name }}
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
+
+    steps:
+      - name: Download JARs
+        uses: actions/download-artifact@v4
+        with:
+          name: mod-jars
+          path: ./jars
+
+      - name: Publish to Modrinth and CurseForge
+        uses: Kira-NT/mc-publish@v3
+        with:
+          modrinth-id: ${{ secrets.MODRINTH_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          curseforge-id: 1637414
+
+          curseforge-id: ${{ secrets.CURSEFORGE_ID }}
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
-          files: |
-            assets/*-neoforge.jar
-
-          name: ${{ github.event.release.name }} (NeoForge)
-          version: ${{ github.event.release.tag_name }}+neoforge
-          version-type: ${{ github.event.release.prerelease && 'beta' || 'release' }}
-          changelog: ${{ github.event.release.body }}
-
-          loaders: neoforge
-          game-versions: ${{ steps.mc.outputs.version }}
-
-          dependencies: |
-            kotlin-lang-forge(required)#(ignore:curseforge)
-
-          fail-mode: fail
+          files: ${{ matrix.file }}
+          name: ${{ matrix.release_name }}
+          version: ${{ matrix.release_name }}
+          version-type: ${{ matrix.version_type }}
+          loaders: ${{ matrix.loader }}
+          game-versions: ${{ matrix.mc_version }}
+          game-version-filter: none
+          changelog: ${{ github.event.release.body || format('Release {0}', matrix.mod_version) }}
+          dependencies: ${{ matrix.loader == 'fabric' && 'fabric-api(required)\nfabric-language-kotlin(required)' || 'kotlin-for-forge(required)#(ignore:curseforge)' }}
